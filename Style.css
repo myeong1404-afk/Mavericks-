@@ -1,1 +1,54 @@
+/* 전체 기본 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+}
 
+/* 화면 공통 */
+.screen {
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 활성화된 화면만 보이게 */
+.screen.active {
+  display: flex;
+}
+
+/* 타이틀 */
+.title {
+  font-size: 48px;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  opacity: 0.7;
+  margin-bottom: 40px;
+}
+
+/* 버튼 */
+button {
+  padding: 12px 40px;
+  font-size: 18px;
+  background: none;
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: white;
+  color: black;
+}
