@@ -23,3 +23,127 @@
   <script src="main.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mavericks - Intro</title>
+
+  <!-- 모바일 최적화 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: "Malgun Gothic", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #introBox {
+      width: 90%;
+      max-width: 600px;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    #text {
+      min-height: 200px;
+      white-space: pre-line;
+    }
+
+    #hint {
+      margin-top: 20px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    #startBtn {
+      display: none;
+      margin-top: 30px;
+      padding: 12px 20px;
+      font-size: 18px;
+      background: #c00;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="introBox">
+    <div id="text"></div>
+    <div id="hint">화면을 터치하면 계속</div>
+    <button id="startBtn" onclick="goNext()">START</button>
+  </div>
+
+  <script>
+    const story = [
+      "매버릭 전쟁이 끝나고 30년 후...\n엑스와 제로의 활약으로 모든 매버릭들의 대장 시그마는 파괴되었다.",
+      "제로는 시그마와 싸울때마다 자신의 에너지가 커지는 것을 느꼈다.\n전쟁이 끝나고도 제로의 에너지에 대한 시그마의 욕구는 꺼지지 않았다.",
+      "엑스는 늘 세계를 구하기 위해\n자신의 친구 제로를 파괴해야 할까봐 두려워했다.",
+      "어느 날, 제로는 처분된 매버릭들의 부품이 재활용되는\n\"매버릭 쓰레기장\"을 조사하는 임무를 맡았다.",
+      "그러나 제로가 그곳에서 실종되는 사고가 일어난다.",
+      "제로의 보디는 모든 과학자들에게 수수께끼다.\n누가 제로를 만들었는가?\n왜 제로의 에너지는 갈수록 치솟는가?",
+      "엑스와 에이리아는\n제로를 찾기 위한 모험을 떠나게 되는데..."
+    ];
+
+    let line = 0;
+    let char = 0;
+    let typing = false;
+    const speed = 35;
+
+    const textEl = document.getElementById("text");
+    const startBtn = document.getElementById("startBtn");
+    const hint = document.getElementById("hint");
+
+    function typeText() {
+      if (char < story[line].length) {
+        typing = true;
+        textEl.textContent += story[line].charAt(char);
+        char++;
+        setTimeout(typeText, speed);
+      } else {
+        typing = false;
+      }
+    }
+
+    function nextLine() {
+      if (typing) {
+        // 타이핑 중이면 즉시 전체 출력
+        textEl.textContent = story[line];
+        typing = false;
+        return;
+      }
+
+      line++;
+      if (line < story.length) {
+        textEl.textContent = "";
+        char = 0;
+        typeText();
+      } else {
+        hint.style.display = "none";
+        startBtn.style.display = "block";
+      }
+    }
+
+    function goNext() {
+      // 다음 화면 (스테이지 선택 등)
+      window.location.href = "select.html";
+    }
+
+    // 터치 / 클릭 처리
+    document.body.addEventListener("click", nextLine);
+    document.body.addEventListener("touchstart", nextLine);
+
+    // 시작
+    typeText();
+  </script>
+
+</body>
+</html>
