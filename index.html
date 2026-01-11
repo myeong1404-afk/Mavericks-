@@ -98,56 +98,71 @@ const story = [
 let line = 0;
 let char = 0;
 let typing = false;
+let typingTimer = null; // 🔥 핵심
 const speed = 35;
 
 /* ===== 타이틀 → 인트로 ===== */
 startBtn.addEventListener("click", (e) => {
-  e.stopPropagation(); // 🔥 중요: 클릭 전파 차단
+  e.stopPropagation();
+
   titleScreen.classList.remove("active");
   introScreen.classList.add("active");
 
-  // 🔁 초기화
-  line = 0;
-  char = 0;
-  textEl.textContent = "";
-
+  resetTyping();
   typeText();
 });
 
 /* ===== 타이핑 효과 ===== */
 function typeText() {
+  typing = true;
+
   if (char < story[line].length) {
-    typing = true;
     textEl.textContent += story[line][char];
     char++;
-    setTimeout(typeText, speed);
+
+    typingTimer = setTimeout(typeText, speed);
   } else {
     typing = false;
+    typingTimer = null;
   }
 }
 
 /* ===== 다음 문장 ===== */
 function nextLine() {
   if (typing) {
+    // 🔥 연타 시: 타이머 완전 제거
+    clearTimeout(typingTimer);
+    typingTimer = null;
+
     textEl.textContent = story[line];
     typing = false;
     return;
   }
 
   line++;
+
   if (line < story.length) {
-    textEl.textContent = "";
-    char = 0;
+    resetTyping();
     typeText();
   } else {
     window.location.href = "select.html";
   }
 }
 
-/* ✅ introScreen에서만 클릭 받기 */
+/* ===== 타이핑 상태 초기화 ===== */
+function resetTyping() {
+  clearTimeout(typingTimer);
+  typingTimer = null;
+  char = 0;
+  typing = false;
+  textEl.textContent = "";
+}
+
+/* intro 화면에서만 입력 받기 */
 introScreen.addEventListener("click", nextLine);
 introScreen.addEventListener("touchstart", nextLine);
 </script>
+
 
 </body>
 </html>
