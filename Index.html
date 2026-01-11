@@ -2,10 +2,24 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Mavericks Demo</title>
+  <title>MAVERICKS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Mavericks Demo</h1>
-  <p>타이틀 화면 테스트</p>
+
+  <!-- 타이틀 화면 -->
+  <div id="titleScreen" class="screen active">
+    <h1 class="title">MAVERICKS</h1>
+    <p class="subtitle">Legacy of X & Zero</p>
+    <button id="startBtn">START</button>
+  </div>
+
+  <!-- 다음 화면 (아직 비어둠) -->
+  <div id="nextScreen" class="screen">
+    <p>다음 화면 (인트로 예정)</p>
+  </div>
+
+  <script src="main.js"></script>
 </body>
 </html>
