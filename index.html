@@ -85,6 +85,7 @@ const introScreen = document.getElementById("introScreen");
 const textEl = document.getElementById("introText");
 const startBtn = document.getElementById("startBtn");
 
+/* ===== 인트로 스토리 ===== */
 const story = [
   "매버릭 전쟁이 끝나고 30년 후...\n엑스와 제로의 활약으로 모든 매버릭들의 대장 시그마는 파괴되었다.",
   "제로는 시그마와 싸울때마다 자신의 에너지가 커지는 것을 느꼈다.\n전쟁이 끝나고도 제로의 에너지에 대한 시그마의 욕구는 꺼지지 않았다.",
@@ -95,19 +96,40 @@ const story = [
   "엑스와 에이리아는\n제로를 찾기 위한 모험을 떠나게 되는데..."
 ];
 
+/* ===== 엑스 & 에이리아 대화 ===== */
+const dialogue = [
+  "엑스: 그래서… 제로는 어디에 있는 거지?",
+  "에이리아: 아직 정확한 위치는 파악되지 않았어.\n하지만 누군가 의도적으로 제로의 신호를 교란하고 있어.",
+  "에이리아: 확실한 건, 제로가 납치되었다는 거야.\n마지막 반응은… 매버릭 쓰레기장 인근이었어.",
+  "(경보음이 울린다)",
+  "에이리아: 엑스! 전국에서 강력한 매버릭 신호 다섯 개가 동시에 감지됐어!",
+  "엑스: 다섯 개나…?",
+  "에이리아: 신호 중 네 개는 30년 전 파괴된 매버릭이야.",
+  "에이리아: 나머지 하나는… 매우 오래된 데이터야.",
+  "엑스: 구형 로봇까지…?\n대체 누가 이런 짓을…",
+  "에이리아: 남극의 칠 펭귄.\n이집트의 그라운드 스카라비치.",
+  "에이리아: 독일의 구식 로봇.\n인도의 톡식 시호스.\n미국의 런처 옥토퍼스.",
+  "엑스: 시그마는 사라졌을 텐데…\n그럼 배후가 따로 있다는 건가?",
+  "에이리아: 지금은 세계를 안정시키는 게 우선이야.",
+  "에이리아: 엑스, 다섯 매버릭을 저지해 줘.",
+  "엑스: 알겠어.\n지금 당장 출동한다!"
+];
+
+let mode = "story"; // story → dialogue
 let line = 0;
 let char = 0;
 let typing = false;
-let typingTimer = null; // 🔥 핵심
+let typingTimer = null;
 const speed = 35;
 
 /* ===== 타이틀 → 인트로 ===== */
 startBtn.addEventListener("click", (e) => {
   e.stopPropagation();
-
   titleScreen.classList.remove("active");
   introScreen.classList.add("active");
 
+  mode = "story";
+  line = 0;
   resetTyping();
   typeText();
 });
@@ -115,11 +137,11 @@ startBtn.addEventListener("click", (e) => {
 /* ===== 타이핑 효과 ===== */
 function typeText() {
   typing = true;
+  const source = mode === "story" ? story : dialogue;
 
-  if (char < story[line].length) {
-    textEl.textContent += story[line][char];
+  if (char < source[line].length) {
+    textEl.textContent += source[line][char];
     char++;
-
     typingTimer = setTimeout(typeText, speed);
   } else {
     typing = false;
@@ -130,26 +152,34 @@ function typeText() {
 /* ===== 다음 문장 ===== */
 function nextLine() {
   if (typing) {
-    // 🔥 연타 시: 타이머 완전 제거
     clearTimeout(typingTimer);
-    typingTimer = null;
-
-    textEl.textContent = story[line];
+    textEl.textContent = (mode === "story" ? story : dialogue)[line];
     typing = false;
     return;
   }
 
   line++;
 
-  if (line < story.length) {
+  const source = mode === "story" ? story : dialogue;
+
+  if (line < source.length) {
     resetTyping();
     typeText();
   } else {
-    window.location.href = "select.html";
+    if (mode === "story") {
+      // 🔁 스토리 끝 → 대화 시작
+      mode = "dialogue";
+      line = 0;
+      resetTyping();
+      typeText();
+    } else {
+      // ✅ 대화 끝 → 스테이지 선택
+      window.location.href = "select.html";
+    }
   }
 }
 
-/* ===== 타이핑 상태 초기화 ===== */
+/* ===== 초기화 ===== */
 function resetTyping() {
   clearTimeout(typingTimer);
   typingTimer = null;
@@ -158,7 +188,6 @@ function resetTyping() {
   textEl.textContent = "";
 }
 
-/* intro 화면에서만 입력 받기 */
 introScreen.addEventListener("click", nextLine);
 introScreen.addEventListener("touchstart", nextLine);
 </script>
