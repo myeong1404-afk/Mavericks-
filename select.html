@@ -33,7 +33,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 button {
@@ -49,9 +49,21 @@ button:hover {
   background: #444;
 }
 
+/* 하단 버튼 */
+.menu-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
 #shopBtn {
   background: #600;
   border-color: #a00;
+}
+
+#statusBtn {
+  background: #064;
+  border-color: #0a6;
 }
 </style>
 </head>
@@ -69,8 +81,11 @@ button:hover {
     <button onclick="notReady()">런처 옥토퍼스</button>
   </div>
 
-  <!-- ✅ 상점 버튼 -->
-  <button id="shopBtn" onclick="goShop()">상점</button>
+  <!-- ✅ 하단 메뉴 버튼 -->
+  <div class="menu-buttons">
+    <button id="shopBtn" onclick="goShop()">상점</button>
+    <button id="statusBtn" onclick="goStatus()">스탯</button>
+  </div>
 </div>
 
 <script>
@@ -80,6 +95,10 @@ function notReady() {
 
 function goShop() {
   window.location.href = "shop.html";
+}
+
+function goStatus() {
+  window.location.href = "stats.html";
 }
 </script>
 
