@@ -4,83 +4,102 @@
 <meta charset="UTF-8">
 <title>Mavericks - Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
 <style>
-  body {
-    margin: 0;
-    font-family: "Malgun Gothic", sans-serif;
-    background: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  font-family: "Malgun Gothic", sans-serif;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  #shopContainer {
-    width: 90%;
-    max-width: 400px;
-    background: #111;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 20px;
-    overflow-y: auto;
-    height: 90vh;
-    box-sizing: border-box;
-  }
+#shopContainer {
+  width: 90%;
+  max-width: 420px;
+  background: #111;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  overflow-y: auto;
+  height: 90vh;
+  box-sizing: border-box;
+}
 
-  h1 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
 
-  .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    background: #222;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-  }
+#money {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #ffcc00;
+}
 
-  .itemName {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
+.sectionTitle {
+  margin: 20px 0 10px;
+  font-size: 18px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 4px;
+}
 
-  .itemEffect {
-    font-size: 14px;
-    opacity: 0.8;
-  }
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #222;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
 
-  .itemPrice {
-    font-weight: bold;
-    color: #ffcc00;
-    text-align: right;
-    min-width: 60px;
-  }
+.itemName {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-  button.buyBtn {
-    margin-top: 5px;
-    padding: 6px 12px;
-    background: #c00;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-  }
+.itemEffect {
+  font-size: 14px;
+  opacity: 0.8;
+}
 
-  button.buyBtn:hover {
-    background: #e22;
-  }
+.itemPrice {
+  font-weight: bold;
+  color: #ffcc00;
+  text-align: right;
+  min-width: 60px;
+}
+
+.buyBtn {
+  margin-top: 5px;
+  padding: 6px 12px;
+  background: #c00;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.buyBtn:hover {
+  background: #e22;
+}
 </style>
 </head>
+
 <body>
 
 <div id="shopContainer">
   <h1>SHOP</h1>
+  <div id="money">소지금: 0 G</div>
+
+  <div class="sectionTitle">소모 아이템</div>
 
   <div class="item">
     <div>
@@ -121,7 +140,7 @@
   <div class="item">
     <div>
       <div class="itemName">스페셜 탱크</div>
-      <div class="itemEffect">HP/MP 100% 회복</div>
+      <div class="itemEffect">HP / MP 100% 회복</div>
       <button class="buyBtn">구매</button>
     </div>
     <div class="itemPrice">1200</div>
@@ -138,46 +157,51 @@
 
   <div class="item">
     <div>
-      <div class="itemName">C급 헬멧</div>
-      <div class="itemEffect">마법력 +2</div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">300</div>
-  </div>
-
-  <div class="item">
-    <div>
-      <div class="itemName">B급 헬멧</div>
-      <div class="itemEffect">마법력 +4</div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">700</div>
-  </div>
-
-  <div class="item">
-    <div>
       <div class="itemName">에너지 캡슐 (스킬)</div>
-      <div class="itemEffect">MP 60 소모, 파티 전체 HP 100% 회복</div>
+      <div class="itemEffect">MP 60 소모 / 파티 전체 HP 100% 회복</div>
       <button class="buyBtn">구매</button>
     </div>
     <div class="itemPrice">4000</div>
   </div>
 
+  <div class="sectionTitle">헬멧 (마법력)</div>
+  <div class="item"><div><div class="itemName">A급 헬멧</div><div class="itemEffect">마법력 +7</div><button class="buyBtn">구매</button></div><div class="itemPrice">1400</div></div>
+  <div class="item"><div><div class="itemName">S급 헬멧</div><div class="itemEffect">마법력 +11</div><button class="buyBtn">구매</button></div><div class="itemPrice">2500</div></div>
+
+  <div class="sectionTitle">장갑 (공격력)</div>
+  <div class="item"><div><div class="itemName">C급 장갑</div><div class="itemEffect">공격력 +2</div><button class="buyBtn">구매</button></div><div class="itemPrice">300</div></div>
+  <div class="item"><div><div class="itemName">B급 장갑</div><div class="itemEffect">공격력 +4</div><button class="buyBtn">구매</button></div><div class="itemPrice">700</div></div>
+  <div class="item"><div><div class="itemName">A급 장갑</div><div class="itemEffect">공격력 +6</div><button class="buyBtn">구매</button></div><div class="itemPrice">1400</div></div>
+  <div class="item"><div><div class="itemName">S급 장갑</div><div class="itemEffect">공격력 +9</div><button class="buyBtn">구매</button></div><div class="itemPrice">2500</div></div>
+
+  <div class="sectionTitle">갑옷 (방어력)</div>
+  <div class="item"><div><div class="itemName">C급 갑옷</div><div class="itemEffect">방어력 +1</div><button class="buyBtn">구매</button></div><div class="itemPrice">400</div></div>
+  <div class="item"><div><div class="itemName">B급 갑옷</div><div class="itemEffect">방어력 +2</div><button class="buyBtn">구매</button></div><div class="itemPrice">900</div></div>
+  <div class="item"><div><div class="itemName">A급 갑옷</div><div class="itemEffect">방어력 +3</div><button class="buyBtn">구매</button></div><div class="itemPrice">1700</div></div>
+  <div class="item"><div><div class="itemName">S급 갑옷</div><div class="itemEffect">방어력 +5</div><button class="buyBtn">구매</button></div><div class="itemPrice">3000</div></div>
+
+  <div class="sectionTitle">부츠 (민첩성)</div>
+  <div class="item"><div><div class="itemName">C급 부츠</div><div class="itemEffect">민첩성 +2</div><button class="buyBtn">구매</button></div><div class="itemPrice">300</div></div>
+  <div class="item"><div><div class="itemName">B급 부츠</div><div class="itemEffect">민첩성 +4</div><button class="buyBtn">구매</button></div><div class="itemPrice">700</div></div>
+  <div class="item"><div><div class="itemName">A급 부츠</div><div class="itemEffect">민첩성 +6</div><button class="buyBtn">구매</button></div><div class="itemPrice">1400</div></div>
+  <div class="item"><div><div class="itemName">S급 부츠</div><div class="itemEffect">민첩성 +9</div><button class="buyBtn">구매</button></div><div class="itemPrice">2500</div></div>
+
 </div>
 
 <script>
-let playerMoney = 2000; // 현재 소지금
+let playerMoney = 2000;
 
-const buyButtons = document.querySelectorAll('.buyBtn');
+const moneyEl = document.getElementById("money");
+updateMoney();
 
-buyButtons.forEach((btn) => {
-  btn.addEventListener('click', () => {
-    const itemDiv = btn.parentElement;
-    const name = itemDiv.querySelector('.itemName').textContent;
-    const price = parseInt(itemDiv.parentElement.querySelector('.itemPrice').textContent);
+document.querySelectorAll(".buyBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const item = btn.closest(".item");
+    const name = item.querySelector(".itemName").textContent;
+    const price = parseInt(item.querySelector(".itemPrice").textContent);
 
-    let qty = parseInt(prompt(`${name} 몇 개 구매할래?`));
-    if (isNaN(qty) || qty <= 0) return alert("취소되었습니다.");
+    const qty = parseInt(prompt(`${name} 몇 개 구매할래?`));
+    if (isNaN(qty) || qty <= 0) return;
 
     const total = price * qty;
     if (total > playerMoney) {
@@ -185,15 +209,17 @@ buyButtons.forEach((btn) => {
       return;
     }
 
-    let confirmBuy = confirm(`총 ${total}G 입니다. 구매할래요?`);
-    if (confirmBuy) {
+    if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
       playerMoney -= total;
-      alert("구매 완료! 고마워요!");
-    } else {
-      alert("취소되었습니다.");
+      updateMoney();
+      alert("구매 완료!");
     }
   });
 });
+
+function updateMoney() {
+  moneyEl.textContent = `소지금: ${playerMoney} G`;
+}
 </script>
 
 </body>
