@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Mavericks - Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+  body {
+    margin: 0;
+    font-family: "Malgun Gothic", sans-serif;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow: hidden;
+  }
 
+  #shopContainer {
+    width: 90%;
+    max-width: 400px;
+    background: #111;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    overflow-y: auto;
+    height: 90vh;
+    box-sizing: border-box;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #222;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+  }
+
+  .itemName {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .itemEffect {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  .itemPrice {
+    font-weight: bold;
+    color: #ffcc00;
+    text-align: right;
+    min-width: 60px;
+  }
+
+  button.buyBtn {
+    margin-top: 5px;
+    padding: 6px 12px;
+    background: #c00;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+
+  button.buyBtn:hover {
+    background: #e22;
+  }
+</style>
+</head>
+<body>
+
+<div id="shopContainer">
+  <h1>SHOP</h1>
+
+  <div class="item">
+    <div>
+      <div class="itemName">소형 에너지 탱크</div>
+      <div class="itemEffect">HP 50 회복</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">150</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">중형 에너지 탱크</div>
+      <div class="itemEffect">HP 150 회복</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">350</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">대형 에너지 탱크</div>
+      <div class="itemEffect">HP 100% 회복</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">800</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">MP 탱크</div>
+      <div class="itemEffect">MP 100% 회복</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">600</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">스페셜 탱크</div>
+      <div class="itemEffect">HP/MP 100% 회복</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">1200</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">큐어 탱크</div>
+      <div class="itemEffect">상태이상 치료</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">300</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">C급 헬멧</div>
+      <div class="itemEffect">마법력 +2</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">300</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">B급 헬멧</div>
+      <div class="itemEffect">마법력 +4</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">700</div>
+  </div>
+
+  <div class="item">
+    <div>
+      <div class="itemName">에너지 캡슐 (스킬)</div>
+      <div class="itemEffect">MP 60 소모, 파티 전체 HP 100% 회복</div>
+      <button class="buyBtn">구매</button>
+    </div>
+    <div class="itemPrice">4000</div>
+  </div>
+
+</div>
+
+<script>
+let playerMoney = 2000; // 현재 소지금
+
+const buyButtons = document.querySelectorAll('.buyBtn');
+
+buyButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const itemDiv = btn.parentElement;
+    const name = itemDiv.querySelector('.itemName').textContent;
+    const price = parseInt(itemDiv.parentElement.querySelector('.itemPrice').textContent);
+
+    let qty = parseInt(prompt(`${name} 몇 개 구매할래?`));
+    if (isNaN(qty) || qty <= 0) return alert("취소되었습니다.");
+
+    const total = price * qty;
+    if (total > playerMoney) {
+      alert("돈이 부족합니다!");
+      return;
+    }
+
+    let confirmBuy = confirm(`총 ${total}G 입니다. 구매할래요?`);
+    if (confirmBuy) {
+      playerMoney -= total;
+      alert("구매 완료! 고마워요!");
+    } else {
+      alert("취소되었습니다.");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
