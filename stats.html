@@ -224,33 +224,28 @@ const defaultPlayerData = {
 
   clearedStages: []
 };
-</script>
+<script>
 if (!localStorage.getItem("playerData")) {
   localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
 }
+const playerData = JSON.parse(localStorage.getItem("playerData"));
 
-let playerData = JSON.parse(localStorage.getItem("playerData"));
-<script>
-  function savePlayerData() {
-  localStorage.setItem("playerData", JSON.stringify(playerData));
-}
-<script>  
-document.getElementById("level").textContent = playerData.level;
+document.getElementById("level").textContent = "Lv." + playerData.level;
 document.getElementById("hp").textContent = playerData.stats.maxHP;
 document.getElementById("atk").textContent = playerData.stats.attack;
 document.getElementById("def").textContent = playerData.stats.defense;
 document.getElementById("agi").textContent = playerData.stats.agility;
 document.getElementById("mag").textContent = playerData.stats.magic;
 document.getElementById("mp").textContent = playerData.stats.maxMP;
-</script>
+  </script>
 </div>
-  <div>레벨: <span id="level"></span></div>
-<div>HP: <span id="hp"></span></div>
-<div>공격력: <span id="atk"></span></div>
-<div>방어력: <span id="def"></span></div>
-<div>민첩성: <span id="agi"></span></div>
-<div>마법력: <span id="mag"></span></div>
-<div>MP: <span id="mp"></span></div>
+  <div>레벨 <span id="level"></span></div>
+<div>HP <span id="hp"></span></div>
+<div>공격력 <span id="atk"></span></div>
+<div>방어력 <span id="def"></span></div>
+<div>민첩성 <span id="agi"></span></div>
+<div>마법력 <span id="mag"></span></div>
+<div>MP <span id="mp"></span></div>
 </div>
   
 </body>
