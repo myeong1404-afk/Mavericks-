@@ -3,221 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <title>Mavericks - Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
+  background: #000;
+  color: #fff;
   font-family: "Malgun Gothic", sans-serif;
-  background: black;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  overflow: hidden;
 }
 
-#shopContainer {
-  width: 90%;
+.container {
   max-width: 420px;
-  background: #111;
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 20px;
-  overflow-y: auto;
-  height: 90vh;
-  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 12px;
 }
 
 h1 {
   text-align: center;
-  font-size: 24px;
-  margin-bottom: 5px;
 }
 
-#money {
+.money {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 16px;
   color: #ffcc00;
+  margin-bottom: 16px;
 }
 
-.sectionTitle {
-  margin: 20px 0 10px;
-  font-size: 18px;
+.section {
+  margin-top: 20px;
+}
+
+.section h2 {
   border-bottom: 1px solid #444;
   padding-bottom: 4px;
+  font-size: 18px;
 }
 
 .item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   background: #222;
   padding: 10px;
-  margin-bottom: 10px;
   border-radius: 6px;
+  margin-top: 10px;
 }
 
-.itemName {
+.item-name {
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
-.itemEffect {
+.item-desc {
   font-size: 14px;
   opacity: 0.8;
 }
 
-.itemCount {
-  font-size: 13px;
-  color: #aaa;
+.item-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
 }
 
-.itemPrice {
-  font-weight: bold;
+.price {
   color: #ffcc00;
-  text-align: right;
-  min-width: 60px;
 }
 
-.buyBtn {
-  margin-top: 5px;
-  padding: 6px 12px;
+button {
   background: #c00;
   border: none;
-  border-radius: 4px;
   color: white;
-  cursor: pointer;
-}
-
-.buyBtn:hover {
-  background: #e22;
+  padding: 6px 12px;
+  border-radius: 4px;
 }
 </style>
 </head>
 
 <body>
+<div class="container">
+  <h1>Shop</h1>
+  <div class="money" id="money"></div>
 
-<div id="shopContainer">
-  <h1>SHOP</h1>
-  <div id="money"></div>
-
-  <!-- 소모 아이템 -->
-  <div class="sectionTitle">소모 아이템</div>
-
-  <div class="item" data-item="소형 에너지 탱크">
-    <div>
-      <div class="itemName">소형 에너지 탱크</div>
-      <div class="itemEffect">HP 50 회복</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">150</div>
-  </div>
-
-  <div class="item" data-item="중형 에너지 탱크">
-    <div>
-      <div class="itemName">중형 에너지 탱크</div>
-      <div class="itemEffect">HP 150 회복</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">350</div>
-  </div>
-
-  <div class="item" data-item="대형 에너지 탱크">
-    <div>
-      <div class="itemName">대형 에너지 탱크</div>
-      <div class="itemEffect">HP 100% 회복</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">800</div>
-  </div>
-
-  <div class="item" data-item="MP 탱크">
-    <div>
-      <div class="itemName">MP 탱크</div>
-      <div class="itemEffect">MP 100% 회복</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">600</div>
-  </div>
-
-  <div class="item" data-item="스페셜 탱크">
-    <div>
-      <div class="itemName">스페셜 탱크</div>
-      <div class="itemEffect">HP / MP 100% 회복</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">1200</div>
-  </div>
-
-  <div class="item" data-item="큐어 탱크">
-    <div>
-      <div class="itemName">큐어 탱크</div>
-      <div class="itemEffect">상태이상 치료</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">300</div>
-  </div>
-
-  <div class="item" data-item="에너지 캡슐">
-    <div>
-      <div class="itemName">에너지 캡슐 (스킬)</div>
-      <div class="itemEffect">MP 60 소모 / 파티 전체 HP 100% 회복</div>
-      <div class="itemCount"></div>
-      <button class="buyBtn">구매</button>
-    </div>
-    <div class="itemPrice">4000</div>
-  </div>
-
-  <!-- 헬멧 -->
-  <div class="sectionTitle">헬멧 (마법력)</div>
-  <div class="item" data-item="C급 헬멧"><div><div class="itemName">C급 헬멧</div><div class="itemEffect">마법력 +2</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">300</div></div>
-  <div class="item" data-item="B급 헬멧"><div><div class="itemName">B급 헬멧</div><div class="itemEffect">마법력 +4</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">700</div></div>
-  <div class="item" data-item="A급 헬멧"><div><div class="itemName">A급 헬멧</div><div class="itemEffect">마법력 +7</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">1400</div></div>
-  <div class="item" data-item="S급 헬멧"><div><div class="itemName">S급 헬멧</div><div class="itemEffect">마법력 +11</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">2500</div></div>
-
-  <!-- 장갑 -->
-  <div class="sectionTitle">장갑 (공격력)</div>
-  <div class="item" data-item="C급 장갑"><div><div class="itemName">C급 장갑</div><div class="itemEffect">공격력 +2</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">300</div></div>
-  <div class="item" data-item="B급 장갑"><div><div class="itemName">B급 장갑</div><div class="itemEffect">공격력 +4</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">700</div></div>
-  <div class="item" data-item="A급 장갑"><div><div class="itemName">A급 장갑</div><div class="itemEffect">공격력 +6</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">1400</div></div>
-  <div class="item" data-item="S급 장갑"><div><div class="itemName">S급 장갑</div><div class="itemEffect">공격력 +9</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">2500</div></div>
-
-  <!-- 갑옷 -->
-  <div class="sectionTitle">갑옷 (방어력)</div>
-  <div class="item" data-item="C급 갑옷"><div><div class="itemName">C급 갑옷</div><div class="itemEffect">방어력 +1</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">400</div></div>
-  <div class="item" data-item="B급 갑옷"><div><div class="itemName">B급 갑옷</div><div class="itemEffect">방어력 +2</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">900</div></div>
-  <div class="item" data-item="A급 갑옷"><div><div class="itemName">A급 갑옷</div><div class="itemEffect">방어력 +3</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">1700</div></div>
-  <div class="item" data-item="S급 갑옷"><div><div class="itemName">S급 갑옷</div><div class="itemEffect">방어력 +5</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">3000</div></div>
-
-  <!-- 부츠 -->
-  <div class="sectionTitle">부츠 (민첩성)</div>
-  <div class="item" data-item="C급 부츠"><div><div class="itemName">C급 부츠</div><div class="itemEffect">민첩성 +2</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">300</div></div>
-  <div class="item" data-item="B급 부츠"><div><div class="itemName">B급 부츠</div><div class="itemEffect">민첩성 +4</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">700</div></div>
-  <div class="item" data-item="A급 부츠"><div><div class="itemName">A급 부츠</div><div class="itemEffect">민첩성 +6</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">1400</div></div>
-  <div class="item" data-item="S급 부츠"><div><div class="itemName">S급 부츠</div><div class="itemEffect">민첩성 +9</div><div class="itemCount"></div><button class="buyBtn">구매</button></div><div class="itemPrice">2500</div></div>
-
+  <div class="section" id="shopList"></div>
 </div>
 
 <script>
+/* === 플레이어 데이터 === */
 const defaultPlayerData = {
+  name: "엑스",
+  job: "매버릭 헌터",
   level: 1,
   money: 2000,
   stats: {
-    maxHP: 100,
+    hp: 100,
     attack: 10,
     defense: 0,
     agility: 5,
     magic: 8,
-    maxMP: 50
+    mp: 50
   },
   equipment: {
     helmet: null,
@@ -231,84 +111,7 @@ const defaultPlayerData = {
     "대형 에너지 탱크": 0,
     "MP 탱크": 0,
     "스페셜 탱크": 0,
-    "큐어 탱크": 0,
-    "에너지 캡슐": 0
-  },
-  clearedStages: []
-};
-
-if (!localStorage.getItem("playerData")) {
-  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
-}
-
-let playerData = JSON.parse(localStorage.getItem("playerData"));
- 
-const moneyEl = document.getElementById("money");
-
-function savePlayerData() {
-  localStorage.setItem("playerData", JSON.stringify(playerData));
-}
-
-function updateMoney() {
-  moneyEl.textContent = `소지금: ${playerData.money} G`;
-}
-
-function updateInventoryUI() {
-  document.querySelectorAll(".item").forEach(item => {
-    const name = item.dataset.item;
-    const countEl = item.querySelector(".itemCount");
-    if (countEl && playerData.inventory[name] !== undefined) {
-      countEl.textContent = `보유: ${playerData.inventory[name]}개`;
-    }
-  });
-}
-
-updateMoney();
-updateInventoryUI();
-
-const moneyEl = document.getElementById("money");
-updateMoney();
-updateInventoryUI();
-
-document.querySelectorAll(".buyBtn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const item = btn.closest(".item");
-    const name = item.dataset.item;
-    const price = parseInt(item.querySelector(".itemPrice").textContent);
-
-    const qty = parseInt(prompt(`${name} 몇 개 구매할래?`));
-    if (isNaN(qty) || qty <= 0) return;
-
-    const total = price * qty;
-    if (total > playerData.money) {
-  alert("돈이 부족합니다!");
-<script>
-/* 1. 플레이어 데이터 초기화 */
-const defaultPlayerData = {
-  level: 1,
-  money: 2000,
-  stats: {
-    maxHP: 100,
-    attack: 10,
-    defense: 0,
-    agility: 5,
-    magic: 8,
-    maxMP: 50
-  },
-  equipment: {
-    helmet: null,
-    gloves: null,
-    armor: null,
-    boots: null
-  },
-  inventory: {
-    "소형 에너지 탱크": 3,
-    "중형 에너지 탱크": 0,
-    "대형 에너지 탱크": 0,
-    "MP 탱크": 0,
-    "스페셜 탱크": 0,
-    "큐어 탱크": 0,
-    "에너지 캡슐": 0
+    "큐어 탱크": 0
   }
 };
 
@@ -318,118 +121,76 @@ if (!localStorage.getItem("playerData")) {
 
 let playerData = JSON.parse(localStorage.getItem("playerData"));
 
-/* 2. UI */
-const moneyEl = document.getElementById("money");
+/* === 상점 데이터 === */
+const shopItems = [
+  {section:"소모 아이템", name:"소형 에너지 탱크", desc:"HP 50 회복", price:150, type:"item"},
+  {section:"소모 아이템", name:"중형 에너지 탱크", desc:"HP 150 회복", price:350, type:"item"},
+  {section:"소모 아이템", name:"대형 에너지 탱크", desc:"HP 100% 회복", price:800, type:"item"},
+  {section:"소모 아이템", name:"MP 탱크", desc:"MP 100% 회복", price:600, type:"item"},
+  {section:"소모 아이템", name:"스페셜 탱크", desc:"HP / MP 100% 회복", price:1200, type:"item"},
+  {section:"소모 아이템", name:"큐어 탱크", desc:"상태이상 치료", price:300, type:"item"},
 
-function savePlayerData() {
-  localStorage.setItem("playerData", JSON.stringify(playerData));
-}
+  {section:"헬멧 (마법력)", name:"C급 헬멧", desc:"마법력 +2", price:300, type:"helmet"},
+  {section:"헬멧 (마법력)", name:"B급 헬멧", desc:"마법력 +4", price:700, type:"helmet"},
+  {section:"헬멧 (마법력)", name:"A급 헬멧", desc:"마법력 +7", price:1400, type:"helmet"},
+  {section:"헬멧 (마법력)", name:"S급 헬멧", desc:"마법력 +11", price:2500, type:"helmet"}
+];
+
+const shopList = document.getElementById("shopList");
+const moneyEl = document.getElementById("money");
 
 function updateMoney() {
   moneyEl.textContent = `소지금: ${playerData.money} G`;
 }
 
-function updateInventoryUI() {
-  document.querySelectorAll(".item").forEach(item => {
-    const name = item.dataset.item;
-    const countEl = item.querySelector(".itemCount");
-    if (countEl && playerData.inventory[name] !== undefined) {
-      countEl.textContent = `보유: ${playerData.inventory[name]}개`;
-    }
-  });
-}
+function renderShop() {
+  shopList.innerHTML = "";
+  let currentSection = "";
 
-updateMoney();
-updateInventoryUI();
-
-<script>
-const defaultPlayerData = {
-  level: 1,
-  money: 2000,
-  stats: {
-    maxHP: 100,
-    attack: 10,
-    defense: 0,
-    agility: 5,
-    magic: 8,
-    maxMP: 50
-  },
-  equipment: {
-    helmet: null,
-    gloves: null,
-    armor: null,
-    boots: null
-  },
-  inventory: {
-    "소형 에너지 탱크": 3,
-    "중형 에너지 탱크": 0,
-    "대형 에너지 탱크": 0,
-    "MP 탱크": 0,
-    "스페셜 탱크": 0,
-    "큐어 탱크": 0,
-    "에너지 캡슐": 0
-  },
-  clearedStages: []
-};
-
-if (!localStorage.getItem("playerData")) {
-  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
-}
-
-let playerData = JSON.parse(localStorage.getItem("playerData"));
-
-const moneyEl = document.getElementById("money");
-
-function savePlayerData() {
-  localStorage.setItem("playerData", JSON.stringify(playerData));
-}
-
-function updateMoney() {
-  moneyEl.textContent = `소지금: ${playerData.money} G`;
-}
-
-function updateInventoryUI() {
-  document.querySelectorAll(".item").forEach(item => {
-    const name = item.dataset.item;
-    const countEl = item.querySelector(".itemCount");
-    if (countEl && playerData.inventory[name] !== undefined) {
-      countEl.textContent = `보유: ${playerData.inventory[name]}개`;
-    }
-  });
-}
-
-updateMoney();
-updateInventoryUI();
-
-document.querySelectorAll(".buyBtn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const item = btn.closest(".item");
-    const name = item.dataset.item;
-    const price = parseInt(item.querySelector(".itemPrice").textContent);
-
-    if (playerData.inventory[name] === undefined) {
-      alert("장비는 다음 단계에서 처리합니다.");
-      return;
+  shopItems.forEach(item => {
+    if (item.section !== currentSection) {
+      currentSection = item.section;
+      const h2 = document.createElement("h2");
+      h2.textContent = currentSection;
+      shopList.appendChild(h2);
     }
 
-    const qty = parseInt(prompt(`${name} 몇 개 구매할래?`));
-    if (!qty || qty <= 0) return;
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div class="item-name">${item.name}</div>
+      <div class="item-desc">${item.desc}</div>
+      <div class="item-bottom">
+        <span class="price">${item.price} G</span>
+        <button>구매</button>
+      </div>
+    `;
 
-    const total = price * qty;
-    if (total > playerData.money) {
-      alert("돈이 부족합니다!");
-      return;
-    }
+    div.querySelector("button").onclick = () => {
+      if (playerData.money < item.price) {
+        alert("돈이 부족합니다");
+        return;
+      }
 
-    if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
-      playerData.money -= total;
-      playerData.inventory[name] += qty;
-      savePlayerData();
+      playerData.money -= item.price;
+
+      if (item.type === "item") {
+        playerData.inventory[item.name]++;
+      } else {
+        playerData.equipment[item.type] = item.name;
+      }
+
+      localStorage.setItem("playerData", JSON.stringify(playerData));
       updateMoney();
-      updateInventoryUI();
-    }
+      alert("구매 완료!");
+    };
+
+    shopList.appendChild(div);
   });
-});
-      </script>
+}
+
+updateMoney();
+renderShop();
+</script>
 </body>
 </html>
