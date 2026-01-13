@@ -132,6 +132,140 @@ const story = [
   "매버릭 전쟁이 끝나고 30년 후...\n엑스와 제로의 활약으로 모든 매버릭들의 대장 시그마는 파괴되었다.",
   "제로는 시그마와 싸울때마다 자신의 에너지가 커지는 것을 느꼈다.\n전쟁이 끝나고도 제로의 에너지에 대한 시그마의 욕구는 꺼지지 않았다.",
   "엑스는 늘 세계를 구하기 위해\n자신의 친구 제로를 파괴해야 할까봐 두려웠다.",
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>Mavericks</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: "Malgun Gothic", sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen {
+  display: none;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.active {
+  display: block;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 18px;
+  opacity: 0.8;
+  margin-bottom: 40px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 18px;
+  background: #c00;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+#introText {
+  text-align: left;
+  line-height: 1.8;
+  min-height: 220px;
+  white-space: pre-line;
+}
+
+#hint {
+  margin-top: 20px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔴 타이틀 -->
+<div id="titleScreen" class="screen active">
+  <h1>MAVERICKS</h1>
+  <h2>X and Zero's Legacy</h2>
+  <button id="startBtn">START</button>
+  <br><br>
+  <button id="resetBtn">DATA RESET</button>
+</div>
+  
+<!-- 🔵 인트로 -->
+<div id="introScreen" class="screen">
+  <div id="introText"></div>
+  <div id="hint">화면을 터치하면 계속</div>
+</div>
+
+<script>
+/* ===== 공통 플레이어 데이터 ===== */
+const defaultPlayerData = {
+  level: 1,
+  money: 2000,
+  stats: {
+    hp: 100,
+    attack: 10,
+    defense: 0,
+    agility: 5,
+    magic: 8,
+    mp: 50
+  },
+  equipment: {
+    helmet: null,
+    gloves: null,
+    armor: null,
+    boots: null
+  },
+  inventory: {
+    "소형 에너지 탱크": 3,
+    "중형 에너지 탱크": 0,
+    "대형 에너지 탱크": 0,
+    "MP 탱크": 0,
+    "스페셜 탱크": 0,
+    "큐어 탱크": 0
+  }
+};
+
+function loadPlayerData() {
+  let data = localStorage.getItem("playerData");
+  if (!data) {
+    localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
+    return JSON.parse(JSON.stringify(defaultPlayerData));
+  }
+  return JSON.parse(data);
+}
+
+function savePlayerData(data) {
+  localStorage.setItem("playerData", JSON.stringify(data));
+}
+const titleScreen = document.getElementById("titleScreen");
+const introScreen = document.getElementById("introScreen");
+const textEl = document.getElementById("introText");
+const startBtn = document.getElementById("startBtn");
+
+/* ===== 인트로 스토리 ===== */
+const story = [
+  "매버릭 전쟁이 끝나고 30년 후...\n엑스와 제로의 활약으로 모든 매버릭들의 대장 시그마는 파괴되었다.",
+  "제로는 시그마와 싸울때마다 자신의 에너지가 커지는 것을 느꼈다.\n전쟁이 끝나고도 제로의 에너지에 대한 시그마의 욕구는 꺼지지 않았다.",
+  "엑스는 늘 세계를 구하기 위해\n자신의 친구 제로를 파괴해야 할까봐 두려웠다.",
   "어느 날, 제로는 처분된 매버릭들의 부품이 재활용되는\n\"매버릭 쓰레기장\"을 조사하는 임무를 맡았다.",
   "그러나 제로가 그곳에서 실종되는 사고가 일어난다.",
   "제로의 보디는 모든 과학자들에게 수수께끼다.\n누가 제로를 만들었는가?\n왜 제로의 에너지는 갈수록 치솟는가?",
@@ -238,10 +372,10 @@ resetBtn.addEventListener("click", () => {
   if (confirm("모든 진행 상황을 초기화할까요?")) {
     localStorage.removeItem("playerData");
     location.reload();
-  
+  }
+});
 </script>
 
 
 </body>
 </html>
-
