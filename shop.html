@@ -296,22 +296,93 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
 });
 
 function updateMoney() {
-  moneyEl.textContent = `소지금: ${playerdata.Money} G`;
+<script>
+const defaultPlayerData = {
+  level: 1,
+  money: 2000,
+  stats: {
+    maxHP: 100,
+    attack: 10,
+    defense: 0,
+    agility: 5,
+    magic: 8,
+    maxMP: 50
+  },
+  equipment: {
+    helmet: null,
+    gloves: null,
+    armor: null,
+    boots: null
+  },
+  inventory: {
+    "소형 에너지 탱크": 3,
+    "중형 에너지 탱크": 0,
+    "대형 에너지 탱크": 0,
+    "MP 탱크": 0,
+    "스페셜 탱크": 0,
+    "큐어 탱크": 0,
+    "에너지 캡슐": 0
+  }
+};
+
+if (!localStorage.getItem("playerData")) {
+  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
+}
+
+let playerData = JSON.parse(localStorage.getItem("playerData"));
+const moneyEl = document.getElementById("money");
+
+function savePlayerData() {
+  localStorage.setItem("playerData", JSON.stringify(playerData));
+}
+
+function updateMoney() {
+  moneyEl.textContent = `소지금: ${playerData.money} G`;
 }
 
 function updateInventoryUI() {
   document.querySelectorAll(".item").forEach(item => {
     const name = item.dataset.item;
     const countEl = item.querySelector(".itemCount");
-    if (countEl && inventory[name] !== undefined) {
-      countEl.textContent = `보유: ${inventory[name]}개`;
-    }
-    function savePlayerData() {
-  localStorage.setItem("playerData", JSON.stringify(playerData));
+    if (countEl && playerData.inventory[name] !== undefined) {
+      countEl.textContent = `보유: ${playerData.inventory[name]}개`;
     }
   });
 }
-</script>
+
+updateMoney();
+updateInventoryUI();
+
+document.querySelectorAll(".buyBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const item = btn.closest(".item");
+    const name = item.dataset.item;
+    const price = parseInt(item.querySelector(".itemPrice").textContent);
+
+    if (playerData.inventory[name] === undefined) {
+      alert("이 아이템은 장비 상점에서 장착 방식으로 처리해야 합니다.");
+      return;
+    }
+
+    const qty = parseInt(prompt(`${name} 몇 개 구매할래?`));
+    if (!qty || qty <= 0) return;
+
+    const total = price * qty;
+    if (total > playerData.money) {
+      alert("돈이 부족합니다!");
+      return;
+    }
+
+    if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
+      playerData.money -= total;
+      playerData.inventory[name] += qty;
+      savePlayerData();
+      updateMoney();
+      updateInventoryUI();
+    }
+  });
+});
+        </script>
 
 </body>
 </html>
