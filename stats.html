@@ -101,18 +101,7 @@ const defaultPlayerData = {
   }
 };
 
-function loadPlayerData() {
-  let data = localStorage.getItem("playerData");
-  if (!data) {
-    localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
-    return JSON.parse(JSON.stringify(defaultPlayerData));
-  }
-  return JSON.parse(data);
-}
 
-function savePlayerData(data) {
-  localStorage.setItem("playerData", JSON.stringify(data));
-}
 const playerData = JSON.parse(localStorage.getItem("playerData"));
 
 document.getElementById("name").textContent = playerData.name;
