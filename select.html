@@ -87,6 +87,45 @@ button:hover {
     <button id="statusBtn" onclick="goStatus()">스탯</button>
   </div>
 </div>
+  <script>
+const defaultPlayerData = {
+  level: 1,
+  money: 2000,
+
+  stats: {
+    maxHP: 100,
+    attack: 10,
+    defense: 0,
+    agility: 5,
+    magic: 8,
+    maxMP: 50
+  },
+
+  equipment: {
+    helmet: null,
+    gloves: null,
+    armor: null,
+    boots: null
+  },
+
+  inventory: {
+    "소형 에너지 탱크": 3,
+    "중형 에너지 탱크": 0,
+    "대형 에너지 탱크": 0,
+    "MP 탱크": 0,
+    "스페셜 탱크": 0,
+    "큐어 탱크": 0,
+    "에너지 캡슐": 0
+  },
+
+  clearedStages: []
+};
+</script>
+if (!localStorage.getItem("playerData")) {
+  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
+}
+
+let playerData = JSON.parse(localStorage.getItem("playerData"));
 
 <script>
 function notReady() {
@@ -101,6 +140,11 @@ function goStatus() {
   window.location.href = "stats.html";
 }
 </script>
+function savePlayerData() {
+  localStorage.setItem("playerData", JSON.stringify(playerData));
+}
+</script>
+  
 
 </body>
 </html>
