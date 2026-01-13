@@ -247,21 +247,24 @@ if (!localStorage.getItem("playerData")) {
 
 let playerData = JSON.parse(localStorage.getItem("playerData"));
 <script> 
-let playerMoney = 2000;
+const moneyEl = document.getElementById("money");
 
-let inventory = {
-  "소형 에너지 탱크": 3,
-  "중형 에너지 탱크": 0,
-  "대형 에너지 탱크": 0,
-  "MP 탱크": 0,
-  "스페셜 탱크": 0,
-  "큐어 탱크": 0,
-  "에너지 캡슐": 0,
-  "C급 헬멧": 0, "B급 헬멧": 0, "A급 헬멧": 0, "S급 헬멧": 0,
-  "C급 장갑": 0, "B급 장갑": 0, "A급 장갑": 0, "S급 장갑": 0,
-  "C급 갑옷": 0, "B급 갑옷": 0, "A급 갑옷": 0, "S급 갑옷": 0,
-  "C급 부츠": 0, "B급 부츠": 0, "A급 부츠": 0, "S급 부츠": 0
-};
+function updateMoney() {
+  moneyEl.textContent = `소지금: ${playerData.money} G`;
+}
+
+function updateInventoryUI() {
+  document.querySelectorAll(".item").forEach(item => {
+    const name = item.dataset.item;
+    const countEl = item.querySelector(".itemCount");
+    if (countEl && playerData.inventory[name] !== undefined) {
+      countEl.textContent = `보유: ${playerData.inventory[name]}개`;
+    }
+  });
+}
+
+updateMoney();
+updateInventoryUI();
 
 const moneyEl = document.getElementById("money");
 updateMoney();
@@ -280,11 +283,11 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     if (total > playerMoney) return alert("돈이 부족합니다!");
 
     if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
-      playerMoney -= total;
-      inventory[name] += qty;
-      savePlayerData();       updateMoney();
-      updateInventoryUI();
-      alert("구매 완료!");
+  playerData.money -= total;
+  playerData.inventory[name] += qty;
+  savePlayerData();
+  updateMoney();
+  updateInventoryUI();
     }
   });
 });
