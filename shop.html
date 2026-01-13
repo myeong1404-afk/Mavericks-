@@ -208,6 +208,45 @@ h1 {
 </div>
 
 <script>
+const defaultPlayerData = {
+  level: 1,
+  money: 2000,
+
+  stats: {
+    maxHP: 100,
+    attack: 10,
+    defense: 0,
+    agility: 5,
+    magic: 8,
+    maxMP: 50
+  },
+
+  equipment: {
+    helmet: null,
+    gloves: null,
+    armor: null,
+    boots: null
+  },
+
+  inventory: {
+    "소형 에너지 탱크": 3,
+    "중형 에너지 탱크": 0,
+    "대형 에너지 탱크": 0,
+    "MP 탱크": 0,
+    "스페셜 탱크": 0,
+    "큐어 탱크": 0,
+    "에너지 캡슐": 0
+  },
+
+  clearedStages: []
+};
+</script>
+if (!localStorage.getItem("playerData")) {
+  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
+}
+
+let playerData = JSON.parse(localStorage.getItem("playerData"));
+<script> 
 let playerMoney = 2000;
 
 let inventory = {
@@ -243,7 +282,7 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
       playerMoney -= total;
       inventory[name] += qty;
-      updateMoney();
+      savePlayerData();       updateMoney();
       updateInventoryUI();
       alert("구매 완료!");
     }
@@ -251,7 +290,7 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
 });
 
 function updateMoney() {
-  moneyEl.textContent = `소지금: ${playerMoney} G`;
+  moneyEl.textContent = `소지금: ${playerdata.Money} G`;
 }
 
 function updateInventoryUI() {
@@ -260,6 +299,9 @@ function updateInventoryUI() {
     const countEl = item.querySelector(".itemCount");
     if (countEl && inventory[name] !== undefined) {
       countEl.textContent = `보유: ${inventory[name]}개`;
+    }
+    function savePlayerData() {
+  localStorage.setItem("playerData", JSON.stringify(playerData));
     }
   });
 }
