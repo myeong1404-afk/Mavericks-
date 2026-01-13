@@ -72,7 +72,13 @@ button {
   <h2>X and Zero's Legacy</h2>
   <button id="startBtn">START</button>
 </div>
-
+  <button id="resetBtn">DATA RESET</button>
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (confirm("모든 진행 상황을 초기화할까요?")) {
+    localStorage.removeItem("playerData");
+    location.reload();
+  }
+});
 <!-- 🔵 인트로 -->
 <div id="introScreen" class="screen">
   <div id="introText"></div>
