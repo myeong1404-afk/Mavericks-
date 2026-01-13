@@ -87,47 +87,9 @@ button:hover {
     <button id="statusBtn" onclick="goStatus()">스탯</button>
   </div>
 </div>
-<script>
   <script src="data.js"></script>
-/* ===== 공통 플레이어 데이터 ===== */
-const defaultPlayerData = {
-  level: 1,
-  money: 2000,
-  stats: {
-    hp: 100,
-    attack: 10,
-    defense: 0,
-    agility: 5,
-    magic: 8,
-    mp: 50
-  },
-  equipment: {
-    helmet: null,
-    gloves: null,
-    armor: null,
-    boots: null
-  },
-  inventory: {
-    "소형 에너지 탱크": 3,
-    "중형 에너지 탱크": 0,
-    "대형 에너지 탱크": 0,
-    "MP 탱크": 0,
-    "스페셜 탱크": 0,
-    "큐어 탱크": 0
-  },
-  clearedStages: []
-};
-
-if (!localStorage.getItem("playerData")) {
-  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
-}
-
-let playerData = JSON.parse(localStorage.getItem("playerData"));
-
-function savePlayerData() {
-  localStorage.setItem("playerData", JSON.stringify(playerData));
-}
-
+<script>
+  
 /* ===== 버튼 함수 ===== */
 function notReady() {
   alert("아직 준비 중입니다.");
