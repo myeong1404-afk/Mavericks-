@@ -112,34 +112,34 @@ h1 {
   <div class="sectionTitle">플레이어 정보</div>
   <div class="basicInfo">
     <div>레벨</div>
-    <div class="statValue">Lv. 1</div>
+    <div class="statValue" id="level"></div>
   </div>
 
   <!-- 능력치 -->
   <div class="sectionTitle">능력치</div>
 
   <div class="statRow">
-    <div class="statName">HP</div>
+    <div class="statValue" id="hp"></div>
     <div class="statValue">100</div>
   </div>
   <div class="statRow">
-    <div class="statName">공격력</div>
+    <div class="statValue" id="atk"></div>
     <div class="statValue">10</div>
   </div>
   <div class="statRow">
-    <div class="statName">방어력</div>
+    <div class="statValue" id="def"></div>
     <div class="statValue">0</div>
   </div>
   <div class="statRow">
-    <div class="statName">민첩성</div>
+    <div class="statValue" id="agi"></div>
     <div class="statValue">5</div>
   </div>
   <div class="statRow">
-    <div class="statName">마법력</div>
+    <div class="statValue" id="mag"></div>
     <div class="statValue">8</div>
   </div>
   <div class="statRow">
-    <div class="statName">최대 MP</div>
+    <div class="statValue" id="mp"></div>
     <div class="statValue">50</div>
   </div>
 
@@ -148,19 +148,19 @@ h1 {
 
   <div class="equipItem">
     <div class="equipSlot">헬멧</div>
-    <div class="equipName">없음</div>
+    <div class="equipName" id="helmet"></div>
   </div>
   <div class="equipItem">
     <div class="equipSlot">장갑</div>
-    <div class="equipName">없음</div>
+    <div class="equipName" id="gloves"></div>
   </div>
   <div class="equipItem">
     <div class="equipSlot">갑옷</div>
-    <div class="equipName">없음</div>
+    <div class="equipName" id="armor"></div>
   </div>
   <div class="equipItem">
     <div class="equipSlot">부츠</div>
-    <div class="equipName">없음</div>
+    <div class="equipName" id="boots"></div>
   </div>
 
   <!-- 소지 아이템 -->
@@ -228,15 +228,21 @@ const defaultPlayerData = {
 if (!localStorage.getItem("playerData")) {
   localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
 }
+
 const playerData = JSON.parse(localStorage.getItem("playerData"));
 
-document.getElementById("level").textContent = "Lv." + playerData.level;
+document.getElementById("level").textContent = "Lv. " + playerData.level;
 document.getElementById("hp").textContent = playerData.stats.maxHP;
 document.getElementById("atk").textContent = playerData.stats.attack;
 document.getElementById("def").textContent = playerData.stats.defense;
 document.getElementById("agi").textContent = playerData.stats.agility;
 document.getElementById("mag").textContent = playerData.stats.magic;
 document.getElementById("mp").textContent = playerData.stats.maxMP;
+
+document.getElementById("helmet").textContent = playerData.equipment.helmet ?? "없음";
+document.getElementById("gloves").textContent = playerData.equipment.gloves ?? "없음";
+document.getElementById("armor").textContent = playerData.equipment.armor ?? "없음";
+document.getElementById("boots").textContent = playerData.equipment.boots ?? "없음";
   </script>
 </div>
   <div>레벨 <span id="level"></span></div>
