@@ -113,31 +113,8 @@ const defaultPlayerData = {
     "MP 탱크": 0,
     "스페셜 탱크": 0,
     "큐어 탱크": 0
-  }
-};
-
-function loadPlayerData() {
-  let data = localStorage.getItem("playerData");
-  if (!data) {
-    localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
-    return JSON.parse(JSON.stringify(defaultPlayerData));
-  }
-  return JSON.parse(data);
-}
-
-function savePlayerData(data) {
-  localStorage.setItem("playerData", JSON.stringify(data));
-}
-const defaultPlayerData = {
-  level: 1,
-  money: 2000,
-  stats: { maxHP:100, attack:10, defense:0, agility:5, magic:8, maxMP:50 },
-  equipment: { helmet:null, gloves:null, armor:null, boots:null },
-  inventory: {
-    "소형 에너지 탱크":3, "중형 에너지 탱크":0, "대형 에너지 탱크":0,
-    "MP 탱크":0, "스페셜 탱크":0, "큐어 탱크":0, "에너지 캡슐":0
   },
-  clearedStages:[]
+  clearedStages: []
 };
 
 if (!localStorage.getItem("playerData")) {
@@ -150,6 +127,7 @@ function savePlayerData() {
   localStorage.setItem("playerData", JSON.stringify(playerData));
 }
 
+/* ===== 버튼 함수 ===== */
 function notReady() {
   alert("아직 준비 중입니다.");
 }
