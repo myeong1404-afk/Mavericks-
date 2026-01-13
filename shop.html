@@ -211,7 +211,6 @@ h1 {
 const defaultPlayerData = {
   level: 1,
   money: 2000,
-
   stats: {
     maxHP: 100,
     attack: 10,
@@ -220,14 +219,12 @@ const defaultPlayerData = {
     magic: 8,
     maxMP: 50
   },
-
   equipment: {
     helmet: null,
     gloves: null,
     armor: null,
     boots: null
   },
-
   inventory: {
     "소형 에너지 탱크": 3,
     "중형 에너지 탱크": 0,
@@ -237,17 +234,20 @@ const defaultPlayerData = {
     "큐어 탱크": 0,
     "에너지 캡슐": 0
   },
-
   clearedStages: []
 };
-</script>
+
 if (!localStorage.getItem("playerData")) {
   localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
 }
 
 let playerData = JSON.parse(localStorage.getItem("playerData"));
-<script> 
+ 
 const moneyEl = document.getElementById("money");
+
+function savePlayerData() {
+  localStorage.setItem("playerData", JSON.stringify(playerData));
+}
 
 function updateMoney() {
   moneyEl.textContent = `소지금: ${playerData.money} G`;
@@ -280,7 +280,10 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     if (isNaN(qty) || qty <= 0) return;
 
     const total = price * qty;
-    if (total > playerMoney) return alert("돈이 부족합니다!");
+    if (total > playerData.money) {
+  alert("돈이 부족합니다!");
+  return;
+    }
 
     if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
   playerData.money -= total;
