@@ -71,12 +71,9 @@ button {
   <h1>MAVERICKS</h1>
   <h2>X and Zero's Legacy</h2>
   <button id="startBtn">START</button>
-</div>
+  <br><br>
   <button id="resetBtn">DATA RESET</button>
-document.getElementById("resetBtn").addEventListener("click", () => {
-  if (confirm("모든 진행 상황을 초기화할까요?")) {
-    localStorage.removeItem("playerData");
-    location.reload();
+</div>
   }
 });
 <!-- 🔵 인트로 -->
@@ -236,6 +233,14 @@ function resetTyping() {
 
 introScreen.addEventListener("click", nextLine);
 introScreen.addEventListener("touchstart", nextLine);
+  const resetBtn = document.getElementById("resetBtn");
+
+resetBtn.addEventListener("click", () => {
+  if (confirm("모든 진행 상황을 초기화할까요?")) {
+    localStorage.removeItem("playerData");
+    location.reload();
+  }
+});
 </script>
 
 
