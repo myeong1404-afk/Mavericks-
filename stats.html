@@ -123,7 +123,7 @@ h1 {
 <div class="statRow"><div>방어력</div><div class="statValue" id="def"></div></div>
 <div class="statRow"><div>민첩성</div><div class="statValue" id="agi"></div></div>
 <div class="statRow"><div>마법력</div><div class="statValue" id="mag"></div></div>
-<div class="statRow"><div>MP</div><div class="statValue" id="mp"></div></div>tatValue">50</div>
+<div class="statRow"><div>MP</div><div class="statValue" id="mp"></div></div>
   </div>
 
   <!-- 장착 장비 -->
@@ -175,40 +175,6 @@ h1 {
   </div>
 
   <script>
-const defaultPlayerData = {
-  level: 1,
-  money: 2000,
-
-  stats: {
-    maxHP: 100,
-    attack: 10,
-    defense: 0,
-    agility: 5,
-    magic: 8,
-    maxMP: 50
-  },
-
-  equipment: {
-    helmet: null,
-    gloves: null,
-    armor: null,
-    boots: null
-  },
-
-  inventory: {
-    "소형 에너지 탱크": 3,
-    "중형 에너지 탱크": 0,
-    "대형 에너지 탱크": 0,
-    "MP 탱크": 0,
-    "스페셜 탱크": 0,
-    "큐어 탱크": 0,
-    "에너지 캡슐": 0
-  },
-
-  clearedStages: []
-};
-<script>
-<script>
 if (!localStorage.getItem("playerData")) return;
 
 const playerData = JSON.parse(localStorage.getItem("playerData"));
