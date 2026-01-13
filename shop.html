@@ -282,21 +282,8 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     const total = price * qty;
     if (total > playerData.money) {
   alert("돈이 부족합니다!");
-  return;
-    }
-
-    if (confirm(`총 ${total}G 입니다. 구매할래요?`)) {
-  playerData.money -= total;
-  playerData.inventory[name] += qty;
-  savePlayerData();
-  updateMoney();
-  updateInventoryUI();
-    }
-  });
-});
-
-function updateMoney() {
 <script>
+/* 1. 플레이어 데이터 초기화 */
 const defaultPlayerData = {
   level: 1,
   money: 2000,
@@ -330,6 +317,8 @@ if (!localStorage.getItem("playerData")) {
 }
 
 let playerData = JSON.parse(localStorage.getItem("playerData"));
+
+/* 2. UI */
 const moneyEl = document.getElementById("money");
 
 function savePlayerData() {
@@ -353,6 +342,7 @@ function updateInventoryUI() {
 updateMoney();
 updateInventoryUI();
 
+/* 3. 구매 처리 */
 document.querySelectorAll(".buyBtn").forEach(btn => {
   btn.addEventListener("click", () => {
     const item = btn.closest(".item");
@@ -360,7 +350,7 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     const price = parseInt(item.querySelector(".itemPrice").textContent);
 
     if (playerData.inventory[name] === undefined) {
-      alert("이 아이템은 장비 상점에서 장착 방식으로 처리해야 합니다.");
+      alert("이 아이템은 장비 시스템에서 처리합니다.");
       return;
     }
 
@@ -382,7 +372,7 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     }
   });
 });
-        </script>
+    </script>
 
 </body>
 </html>
