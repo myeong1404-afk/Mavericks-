@@ -342,7 +342,65 @@ function updateInventoryUI() {
 updateMoney();
 updateInventoryUI();
 
-/* 3. 구매 처리 */
+<script>
+const defaultPlayerData = {
+  level: 1,
+  money: 2000,
+  stats: {
+    maxHP: 100,
+    attack: 10,
+    defense: 0,
+    agility: 5,
+    magic: 8,
+    maxMP: 50
+  },
+  equipment: {
+    helmet: null,
+    gloves: null,
+    armor: null,
+    boots: null
+  },
+  inventory: {
+    "소형 에너지 탱크": 3,
+    "중형 에너지 탱크": 0,
+    "대형 에너지 탱크": 0,
+    "MP 탱크": 0,
+    "스페셜 탱크": 0,
+    "큐어 탱크": 0,
+    "에너지 캡슐": 0
+  },
+  clearedStages: []
+};
+
+if (!localStorage.getItem("playerData")) {
+  localStorage.setItem("playerData", JSON.stringify(defaultPlayerData));
+}
+
+let playerData = JSON.parse(localStorage.getItem("playerData"));
+
+const moneyEl = document.getElementById("money");
+
+function savePlayerData() {
+  localStorage.setItem("playerData", JSON.stringify(playerData));
+}
+
+function updateMoney() {
+  moneyEl.textContent = `소지금: ${playerData.money} G`;
+}
+
+function updateInventoryUI() {
+  document.querySelectorAll(".item").forEach(item => {
+    const name = item.dataset.item;
+    const countEl = item.querySelector(".itemCount");
+    if (countEl && playerData.inventory[name] !== undefined) {
+      countEl.textContent = `보유: ${playerData.inventory[name]}개`;
+    }
+  });
+}
+
+updateMoney();
+updateInventoryUI();
+
 document.querySelectorAll(".buyBtn").forEach(btn => {
   btn.addEventListener("click", () => {
     const item = btn.closest(".item");
@@ -350,7 +408,7 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     const price = parseInt(item.querySelector(".itemPrice").textContent);
 
     if (playerData.inventory[name] === undefined) {
-      alert("이 아이템은 장비 시스템에서 처리합니다.");
+      alert("장비는 다음 단계에서 처리합니다.");
       return;
     }
 
@@ -372,7 +430,6 @@ document.querySelectorAll(".buyBtn").forEach(btn => {
     }
   });
 });
-    </script>
-
+      </script>
 </body>
 </html>
