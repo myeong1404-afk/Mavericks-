@@ -146,6 +146,13 @@ button {
     }
     playerData.inventory[item.name] += count;
   }
+ // 🔹 장비면 인벤토리에 추가
+if (item.type !== "item") {
+  if (!playerData.inventory[item.name]) {
+    playerData.inventory[item.name] = 0;
+  }
+  playerData.inventory[item.name] += count;
+}
 
   savePlayerData(playerData);
   updateMoney();
