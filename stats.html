@@ -98,6 +98,59 @@ Object.entries(playerData.inventory).forEach(([name, count]) => {
   div.className = "row";
   div.innerHTML = `<span>${name}</span><span>x${count}</span>`;
   inv.appendChild(div);
+  const slots = ["helmet", "gloves", "armor", "boots"];
+
+function refreshUI() {
+  document.getElementById("hp").textContent = playerData.stats.hp;
+  document.getElementById("atk").textContent = playerData.stats.attack;
+  document.getElementById("def").textContent = playerData.stats.defense;
+  document.getElementById("agi").textContent = playerData.stats.agility;
+  document.getElementById("mag").textContent = playerData.stats.magic;
+  document.getElementById("mp").textContent = playerData.stats.mp;
+
+  slots.forEach(slot => {
+    const el = document.getElementById(slot);
+    el.textContent = playerData.equipment[slot] ?? "없음";
+    el.onclick = () => openEquipMenu(slot);
+  });
+}
+
+function openEquipMenu(slot) {
+  const list = Object.entries(playerData.inventory)
+    .filter(([name, count]) => count > 0 && name.includes(slotName(slot)));
+
+  let msg = "장비 선택:\n";
+  list.forEach(([name, count], i) => {
+    msg += `${i + 1}. ${name} x${count}\n`;
+  });
+  msg += "0. 장착 해제";
+
+  const sel = prompt(msg);
+  if (sel === null) return;
+
+  const idx = parseInt(sel);
+  if (idx === 0) {
+    playerData.equipment[slot] = null;
+  } else if (list[idx - 1]) {
+    playerData.equipment[slot] = list[idx - 1][0];
+  }
+
+  recalcStats(playerData);
+  savePlayerData(playerData);
+  location.reload();
+}
+
+function slotName(slot) {
+  return {
+    helmet: "헬멧",
+    gloves: "장갑",
+    armor: "갑옷",
+    boots: "부츠"
+  }[slot];
+}
+
+recalcStats(playerData);
+refreshUI();
 });
 </script>
   
