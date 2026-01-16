@@ -77,11 +77,24 @@ button {
     {section:"소모 아이템", name:"소형 에너지 탱크", desc:"HP 50 회복", price:150, type:"item"},
     {section:"소모 아이템", name:"중형 에너지 탱크", desc:"HP 150 회복", price:350, type:"item"},
     {section:"소모 아이템", name:"대형 에너지 탱크", desc:"HP 100% 회복", price:800, type:"item"},
-
+    {section:"소모 아이템", name:"스페셜 탱크", desc:"HP/MP 100% 회복", price:1200, type:"item"},
+    {section:"소모 아이템", name:"큐어 탱크", desc:"상태이상 치료", price:600, type:"item"},
     {section:"헬멧 (마법력)", name:"C급 헬멧", desc:"마법력 +2", price:300, type:"helmet"},
+    {section:"헬멧 (마법력)", name:"B급 헬멧", desc:"마법력 +4", price:700, type:"helmet"},
+    {section:"헬멧 (마법력)", name:"A급 헬멧", desc:"마법력 +7", price:1400, type:"helmet"},
+    {section:"헬멧 (마법력)", name:"S급 헬멧", desc:"마법력 +11", price:2500, type:"helmet"},
     {section:"장갑 (공격력)", name:"C급 장갑", desc:"공격력 +2", price:300, type:"gloves"},
+    {section:"장갑 (공격력)", name:"B급 장갑", desc:"공격력 +4", price:700, type:"gloves"},
+    {section:"장갑 (공격력)", name:"A급 장갑", desc:"공격력 +6", price:1400, type:"gloves"},
+    {section:"장갑 (공격력)", name:"S급 장갑", desc:"공격력 +9", price:2500, type:"gloves"},
     {section:"갑옷 (방어력)", name:"C급 갑옷", desc:"방어력 +1", price:400, type:"armor"},
+    {section:"갑옷 (방어력)", name:"B급 갑옷", desc:"방어력 +2", price:900, type:"armor"},
+    {section:"갑옷 (방어력)", name:"A급 갑옷", desc:"방어력 +3", price:1700, type:"armor"},
+    {section:"갑옷 (방어력)", name:"S급 갑옷", desc:"방어력 +5", price:3000, type:"armor"},
     {section:"부츠 (민첩성)", name:"C급 부츠", desc:"민첩성 +2", price:300, type:"boots"}
+    {section:"부츠 (민첩성)", name:"B급 부츠", desc:"민첩성 +4", price:700, type:"boots"}
+    {section:"부츠 (민첩성)", name:"A급 부츠", desc:"민첩성 +6", price:1400, type:"boots"}   
+    {section:"부츠 (민첩성)", name:"S급 부츠", desc:"민첩성 +9", price:2500, type:"boots"}
   ];
 
   const shopList = document.getElementById("shopList");
@@ -115,20 +128,29 @@ button {
       `;
 
       div.querySelector("button").onclick = () => {
-        const qty = prompt("몇 개 살까?");
-        if (qty === null) return alert("구매 취소됨");
+  const qty = prompt("몇 개 살까?");
+  if (qty === null) return;
 
-        const count = parseInt(qty);
-        if (isNaN(count) || count <= 0) return;
+  const count = parseInt(qty);
+  if (isNaN(count) || count <= 0) return alret("구매 취소됨");
 
-        const total = item.price * count;
-        if (playerData.money < total) return alert("돈이 부족해");
+  const total = item.price * count;
+  if (playerData.money < total) return alert("돈이 부족해");
 
-        playerData.money -= total;
-        localStorage.setItem("playerData", JSON.stringify(playerData));
-        updateMoney();
-        alert("고마워!");
-      };
+  playerData.money -= total;
+
+  // 🔹 소모 아이템이면 인벤토리에 추가
+  if (item.type === "item") {
+    if (!playerData.inventory[item.name]) {
+      playerData.inventory[item.name] = 0;
+    }
+    playerData.inventory[item.name] += count;
+  }
+
+  savePlayerData(playerData);
+  updateMoney();
+  alert("구매 완료!");
+};
 
       shopList.appendChild(div);
     });
