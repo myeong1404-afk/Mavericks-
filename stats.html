@@ -98,7 +98,7 @@ Object.entries(playerData.inventory).forEach(([name, count]) => {
   div.className = "row";
   div.innerHTML = `<span>${name}</span><span>x${count}</span>`;
   inv.appendChild(div);
-  const slots = ["helmet", "gloves", "armor", "boots"];
+ const slots = ["helmet", "gloves", "armor", "boots"];
 
 function refreshUI() {
   document.getElementById("hp").textContent = playerData.stats.hp;
@@ -137,7 +137,7 @@ function openEquipMenu(slot) {
 
   recalcStats(playerData);
   savePlayerData(playerData);
-  location.reload();
+  refreshUI();
 }
 
 function slotName(slot) {
@@ -147,7 +147,7 @@ function slotName(slot) {
     armor: "갑옷",
     boots: "부츠"
   }[slot];
-}
+} 
 
 recalcStats(playerData);
 refreshUI();
