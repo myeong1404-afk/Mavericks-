@@ -1,4 +1,4 @@
-/* ===== 공통 플레이어 데이터 (유일한 기준) ===== */
+/* ===== 공통 플레이어 데이터 ===== */
 const defaultPlayerData = {
   name: "엑스",
   job: "헌터",
@@ -31,18 +31,26 @@ const defaultPlayerData = {
   }
 };
 
-/* ===== 로드 ===== */
 function loadPlayerData() {
-  const data = localStorage.getItem("playerData");
+  let data = localStorage.getItem("playerData");
+
   if (!data) {
     const clone = JSON.parse(JSON.stringify(defaultPlayerData));
     localStorage.setItem("playerData", JSON.stringify(clone));
     return clone;
   }
-  return JSON.parse(data);
+
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("playerData 깨짐, 초기화", e);
+    localStorage.removeItem("playerData");
+    const clone = JSON.parse(JSON.stringify(defaultPlayerData));
+    localStorage.setItem("playerData", JSON.stringify(clone));
+    return clone;
+  }
 }
 
-/* ===== 세이브 ===== */
 function savePlayerData(data) {
   localStorage.setItem("playerData", JSON.stringify(data));
 }
