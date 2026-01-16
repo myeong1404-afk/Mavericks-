@@ -91,9 +91,9 @@ button {
     {section:"갑옷 (방어력)", name:"B급 갑옷", desc:"방어력 +2", price:900, type:"armor"},
     {section:"갑옷 (방어력)", name:"A급 갑옷", desc:"방어력 +3", price:1700, type:"armor"},
     {section:"갑옷 (방어력)", name:"S급 갑옷", desc:"방어력 +5", price:3000, type:"armor"},
-    {section:"부츠 (민첩성)", name:"C급 부츠", desc:"민첩성 +2", price:300, type:"boots"}
-    {section:"부츠 (민첩성)", name:"B급 부츠", desc:"민첩성 +4", price:700, type:"boots"}
-    {section:"부츠 (민첩성)", name:"A급 부츠", desc:"민첩성 +6", price:1400, type:"boots"}   
+    {section:"부츠 (민첩성)", name:"C급 부츠", desc:"민첩성 +2", price:300, type:"boots"},
+    {section:"부츠 (민첩성)", name:"B급 부츠", desc:"민첩성 +4", price:700, type:"boots"},
+    {section:"부츠 (민첩성)", name:"A급 부츠", desc:"민첩성 +6", price:1400, type:"boots"},   
     {section:"부츠 (민첩성)", name:"S급 부츠", desc:"민첩성 +9", price:2500, type:"boots"}
   ];
 
@@ -132,7 +132,7 @@ button {
   if (qty === null) return;
 
   const count = parseInt(qty);
-  if (isNaN(count) || count <= 0) return alret("구매 취소됨");
+  if (isNaN(count) || count <= 0) return alert("구매 취소됨");
 
   const total = item.price * count;
   if (playerData.money < total) return alert("돈이 부족해");
