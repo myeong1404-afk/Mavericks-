@@ -6,46 +6,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+<style>
 body {
   margin: 0;
-  background: black;
-  color: white;
+  background: #000;
+  color: #fff;
   font-family: "Malgun Gothic", sans-serif;
 }
 
 .container {
   max-width: 420px;
   margin: 0 auto;
-  padding: 12px;
+  padding: 16px;
 }
 
 h1 {
-  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
 .section {
-  margin-top: 18px;
+  margin-top: 28px;
 }
 
-.section h2 {
-  border-bottom: 1px solid #444;
-  padding-bottom: 4px;
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 12px;
 }
 
 .row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 16px;
+}
+
+.row span:last-child {
+  font-weight: bold;
+}
+
+.inventory-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.inventory-row span:last-child {
+  opacity: 0.85;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
-  <h1>Status</h1>
+  <h1>플레이어 정보</h1>
 
   <div class="section">
-    <h2>플레이어 정보</h2>
+    <div class="section-title">플레이어 정보</div>
     <div class="row"><span>이름</span><span id="name"></span></div>
     <div class="row"><span>직업</span><span id="job"></span></div>
     <div class="row"><span>레벨</span><span id="level"></span></div>
@@ -58,7 +81,7 @@ h1 {
   </div>
 
   <div class="section">
-    <h2>장착 장비</h2>
+    <div class="section-title">장착 장비</div>
     <div class="row"><span>헬멧</span><span id="helmet"></span></div>
     <div class="row"><span>장갑</span><span id="gloves"></span></div>
     <div class="row"><span>갑옷</span><span id="armor"></span></div>
@@ -66,7 +89,7 @@ h1 {
   </div>
 
   <div class="section">
-    <h2>소지 아이템</h2>
+    <div class="section-title">소지 아이템</div>
     <div id="inventory"></div>
   </div>
 </div>
@@ -95,9 +118,10 @@ document.getElementById("boots").textContent = playerData.equipment.boots ?? "�
 const inv = document.getElementById("inventory");
 Object.entries(playerData.inventory).forEach(([name, count]) => {
   const div = document.createElement("div");
-  div.className = "row";
+  div.className = "inventory-row";
   div.innerHTML = `<span>${name}</span><span>x${count}</span>`;
   inv.appendChild(div);
+});
  const slots = ["helmet", "gloves", "armor", "boots"];
 
 function refreshUI() {
