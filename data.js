@@ -5,7 +5,7 @@ const defaultPlayerData = {
   level: 1,
   money: 2000,
 
-  stats: {
+  baseStats: {
     hp: 100,
     attack: 10,
     defense: 0,
@@ -13,6 +13,8 @@ const defaultPlayerData = {
     magic: 8,
     mp: 50
   },
+
+  stats: {},
 
   equipment: {
     helmet: null,
@@ -31,26 +33,50 @@ const defaultPlayerData = {
   }
 };
 
+const equipmentBonus = {
+  "C급 헬멧": { magic: 2 },
+  "B급 헬멧": { magic: 4 },
+  "A급 헬멧": { magic: 7 },
+  "S급 헬멧": { magic: 11 },
+
+  "C급 장갑": { attack: 2 },
+  "B급 장갑": { attack: 4 },
+  "A급 장갑": { attack: 6 },
+  "S급 장갑": { attack: 9 },
+
+  "C급 갑옷": { defense: 1 },
+  "B급 갑옷": { defense: 2 },
+  "A급 갑옷": { defense: 3 },
+  "S급 갑옷": { defense: 5 },
+
+  "C급 부츠": { agility: 2 },
+  "B급 부츠": { agility: 4 },
+  "A급 부츠": { agility: 6 },
+  "S급 부츠": { agility: 9 }
+};
+
 function loadPlayerData() {
-  let data = localStorage.getItem("playerData");
-
+  let data = JSON.parse(localStorage.getItem("playerData"));
   if (!data) {
-    const clone = JSON.parse(JSON.stringify(defaultPlayerData));
-    localStorage.setItem("playerData", JSON.stringify(clone));
-    return clone;
+    data = JSON.parse(JSON.stringify(defaultPlayerData));
+    recalcStats(data);
+    savePlayerData(data);
   }
-
-  try {
-    return JSON.parse(data);
-  } catch (e) {
-    console.error("playerData 깨짐, 초기화", e);
-    localStorage.removeItem("playerData");
-    const clone = JSON.parse(JSON.stringify(defaultPlayerData));
-    localStorage.setItem("playerData", JSON.stringify(clone));
-    return clone;
-  }
+  return data;
 }
 
 function savePlayerData(data) {
   localStorage.setItem("playerData", JSON.stringify(data));
+}
+
+function recalcStats(data) {
+  data.stats = { ...data.baseStats };
+
+  Object.values(data.equipment).forEach(eq => {
+    if (eq && equipmentBonus[eq]) {
+      for (const key in equipmentBonus[eq]) {
+        data.stats[key] += equipmentBonus[eq][key];
+      }
+    }
+  });
 }
