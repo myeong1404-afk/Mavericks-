@@ -57,11 +57,15 @@ const equipmentBonus = {
 
 function loadPlayerData() {
   let data = JSON.parse(localStorage.getItem("playerData"));
+
   if (!data) {
     data = JSON.parse(JSON.stringify(defaultPlayerData));
-    recalcStats(data);
-    savePlayerData(data);
   }
+
+  // ⭐ 무조건 스탯 재계산
+  recalcStats(data);
+  savePlayerData(data);
+
   return data;
 }
 
