@@ -9,44 +9,60 @@
 <style>
 body {
   margin: 0;
-  background: black;
+  background: url("black-grid-pattern-with-green-lines-aesthetic-minimal-background_1066757-504.jpg") no-repeat center center fixed;
+  background-size: cover;
   color: white;
   font-family: "Malgun Gothic", sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
 }
 
 #stageSelect {
+  background: rgba(0, 0, 0, 0.7);
   width: 90%;
   max-width: 600px;
-  text-align: center;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 10px;
 }
 
 h1 {
+  text-align: center;
   font-size: 28px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .stage-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
 }
 
-button {
-  padding: 14px;
-  font-size: 16px;
+.stage-card {
   background: #222;
-  color: white;
   border: 1px solid #555;
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.1s;
 }
 
-button:hover {
-  background: #444;
+.stage-card:hover {
+  background: #333;
+  transform: scale(1.03);
+}
+
+.boss-face {
+  width: 100%;
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.boss-name {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 /* 하단 버튼 */
@@ -56,14 +72,20 @@ button:hover {
   justify-content: center;
 }
 
+.menu-buttons button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+}
+
 #shopBtn {
   background: #600;
-  border-color: #a00;
 }
 
 #statusBtn {
   background: #064;
-  border-color: #0a6;
 }
 </style>
 </head>
@@ -74,25 +96,40 @@ button:hover {
   <h1>STAGE SELECT</h1>
 
   <div class="stage-grid">
-    <button onclick="notReady()">칠 펭귄</button>
-    <button onclick="notReady()">그라운드 스카라비치</button>
-    <button onclick="notReady()">메탈맨</button>
-    <button onclick="notReady()">톡식 시호스</button>
-    <button onclick="notReady()">런처 옥토퍼스</button>
+    <div class="stage-card" onclick="notReady()">
+      <img src="mmx1_stageselect(1).png" class="boss-face">
+      <div class="boss-name">칠 펭귄</div>
+    </div>
+
+    <div class="stage-card" onclick="notReady()">
+      <img src="MMX6_Mugshots_All(2).png.png" class="boss-face">
+      <div class="boss-name">그라운드 스카라비치</div>
+    </div>
+
+    <div class="stage-card" onclick="notReady()">
+      <img src="Screenshot_20260117_115217_Gallery.png" class="boss-face">
+      <div class="boss-name">메탈맨</div>
+    </div>
+
+    <div class="stage-card" onclick="notReady()">
+      <img src="Screenshot_20260117_115405_Gallery(1).png" class="boss-face">
+      <div class="boss-name">톡식 시호스</div>
+    </div>
+
+    <div class="stage-card" onclick="notReady()">
+      <img src="mmx1_stageselect.png" class="boss-face">
+      <div class="boss-name">런처 옥토퍼스</div>
+    </div>
   </div>
 
-  <!-- ✅ 하단 메뉴 버튼 -->
   <div class="menu-buttons">
     <button id="shopBtn" onclick="goShop()">상점</button>
     <button id="statusBtn" onclick="goStatus()">스탯</button>
   </div>
 </div>
-  <script src="data.js"></script>
+
+<script src="data.js"></script>
 <script>
-
-const playerData = loadPlayerData();  
-
-/* ===== 버튼 함수 ===== */
 function notReady() {
   alert("아직 준비 중입니다.");
 }
@@ -105,7 +142,6 @@ function goStatus() {
   location.href = "stats.html";
 }
 </script>
-  
 
 </body>
 </html>
