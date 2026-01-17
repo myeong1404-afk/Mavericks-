@@ -28,157 +28,8 @@ body {
   display: block;
 }
 
-h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
-}
-
-h2 {
-  font-size: 18px;
-  opacity: 0.8;
-  margin-bottom: 40px;
-}
-
-button {
-  padding: 12px 24px;
-  font-size: 18px;
-  background: #c00;
-  color: white;
-  border: none;
-  border-radius: 6px;
-}
-
-#introText {
-  text-align: left;
-  line-height: 1.8;
-  min-height: 220px;
-  white-space: pre-line;
-}
-
-#hint {
-  margin-top: 20px;
-  font-size: 12px;
-  opacity: 0.6;
-}
-</style>
-</head>
-
-<body>
-
-<!-- 🔴 타이틀 -->
-<div id="titleScreen" class="screen active">
-  <h1>MAVERICKS</h1>
-  <h2>X and Zero's Legacy</h2>
-  <button id="startBtn">START</button>
-  <br><br>
-  <button id="resetBtn">DATA RESET</button>
-</div>
-
-<!-- 🔵 인트로 -->
-<div id="introScreen" class="screen">
-  <div id="introText"></div>
-  <div id="hint">화면을 터치하면 계속</div>
-</div>
-  
-<script src="data.js"></script>
-  
-<script>
-
-loadPlayerData();
-
-/* ===== DOM ===== */
-const titleScreen = document.getElementById("titleScreen");
-const introScreen = document.getElementById("introScreen");
-const textEl = document.getElementById("introText");
-const startBtn = document.getElementById("startBtn");
-const resetBtn = document.getElementById("resetBtn");
-
-/* ===== 스토리 ===== */
-const story = [
-  "매버릭 전쟁이 끝나고 30년 후...\n엑스와 제로의 활약으로 모든 매버릭들의 대장 시그마는 파괴되었다.",
-  "제로는 시그마와 싸울때마다 자신의 에너지가 커지는 것을 느꼈다.\n전쟁이 끝나고도 제로의 에너지에 대한 시그마의 욕구는 꺼지지 않았다.",
-  "엑스는 늘 세계를 구하기 위해\n자신의 친구 제로를 파괴해야 할까봐 두려웠다.",
-  "어느 날, 제로는 처분된 매버릭들의 부품이 재활용되는\n\"매버릭 쓰레기장\"을 조사하는 임무를 맡았다.",
-  "그러나 제로가 그곳에서 실종되는 사고가 일어난다.",
-  "엑스와 에이리아는\n제로를 찾기 위한 모험을 떠나게 되는데..."
-];
-
-const dialogue = [
-  "엑스: 그래서… 제로는 어디에 있는 거지?",
-  "에이리아: 아직 정확한 위치는 파악되지 않았어.\n하지만 누군가 의도적으로 제로의 신호를 교란하고 있어.",
-  "에이리아: 확실한 건, 제로가 납치되었다는 거야.\n마지막 반응은… 매버릭 쓰레기장 인근이었어.",
-  "(경보음이 울린다)",
-  "에이리아: 엑스! 전국에서 강력한 매버릭 신호 다섯 개가 동시에 감지됐어!",
-  "엑스: 다섯 개나…?",
-  "에이리아: 신호 중 네 개는 30년 전 파괴된 매버릭이야.",
-  "에이리아: 나머지 하나는… 매우 오래된 데이터야.",
-  "엑스: 구형 로봇까지…?\n대체 누가 이런 짓을…",
-  "에이리아: 남극의 칠 펭귄.\n이집트의 그라운드 스카라비치.",
-  "에이리아: 독일의 정체불명의 구식 로봇.\n인도의 톡식 시호스.\n미국의 런처 옥토퍼스.",
-  "엑스: 시그마는 사라졌을 텐데…\n그럼 배후가 따로 있다는 건가?",
-  "에이리아: 지금은 세계를 안정시키는 게 우선이야.",
-  "에이리아: 엑스, 다섯 매버릭을 저지해 줘.",
-  "엑스: 알겠어.\n지금 당장 출동한다!"
-];
-
-let mode = "story";
-let line = 0;
-let char = 0;
-let typing = false;
-let typingTimer = null;
-const speed = 35;
-
-/* ===== 타이틀 → 인트로 ===== */
-startBtn.addEventListener("click", () => {
-  titleScreen.classList.remove("active");
-  introScreen.classList.add("active");
-  resetTyping();
-  typeText();
-});
-
-/* ===== 타이핑 ===== */
-function typeText() {
-  typing = true;
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<title>Mavericks</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-<style>
-body {
-  margin: 0;
-  background: black;
-  color: white;
-  font-family: "Malgun Gothic", sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.screen {
-  display: none;
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-}
-
-.active {
-  display: block;
-}
-
-h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
-}
-
-h2 {
-  font-size: 18px;
-  opacity: 0.8;
-  margin-bottom: 40px;
-}
+h1 { font-size: 36px; margin-bottom: 10px; }
+h2 { font-size: 18px; opacity: 0.8; margin-bottom: 40px; }
 
 button {
   padding: 12px 24px;
@@ -196,10 +47,8 @@ button {
   white-space: pre-line;
 }
 
-/* 머그샷 */
 #mugshot {
   width: 120px;
-  height: auto;
   margin: 0 auto 10px;
   display: none;
 }
@@ -210,7 +59,6 @@ button {
   opacity: 0.6;
 }
 
-/* 스킵 버튼 */
 #skipBtn {
   margin-top: 15px;
   font-size: 14px;
@@ -221,29 +69,27 @@ button {
 
 <body>
 
-<!-- 🔴 타이틀 -->
+<!-- 타이틀 -->
 <div id="titleScreen" class="screen active">
   <h1>MAVERICKS</h1>
   <h2>X and Zero's Legacy</h2>
-  <button id="startBtn">START</button>
-  <br><br>
+  <button id="startBtn">START</button><br><br>
   <button id="resetBtn">DATA RESET</button>
 </div>
 
-<!-- 🔵 인트로 -->
+<!-- 인트로 -->
 <div id="introScreen" class="screen">
-  <img id="mugshot" src="">
+  <img id="mugshot">
   <div id="introText"></div>
   <div id="hint">화면을 터치하면 계속</div>
   <button id="skipBtn">SKIP</button>
 </div>
 
 <script src="data.js"></script>
-
 <script>
 loadPlayerData();
 
-/* ===== DOM ===== */
+/* DOM */
 const titleScreen = document.getElementById("titleScreen");
 const introScreen = document.getElementById("introScreen");
 const textEl = document.getElementById("introText");
@@ -252,90 +98,62 @@ const startBtn = document.getElementById("startBtn");
 const resetBtn = document.getElementById("resetBtn");
 const skipBtn = document.getElementById("skipBtn");
 
-/* ===== 스토리 ===== */
+/* 스토리 */
 const story = [
-  "매버릭 전쟁이 끝나고 30년 후...\n엑스와 제로의 활약으로 모든 매버릭들의 대장 시그마는 파괴되었다.",
-  "제로는 시그마와 싸울때마다 자신의 에너지가 커지는 것을 느꼈다.\n전쟁이 끝나고도 제로의 에너지에 대한 시그마의 욕구는 꺼지지 않았다.",
-  "엑스는 늘 세계를 구하기 위해\n자신의 친구 제로를 파괴해야 할까봐 두려웠다.",
-  "어느 날, 제로는 처분된 매버릭들의 부품이 재활용되는\n\"매버릭 쓰레기장\"을 조사하는 임무를 맡았다.",
-  "그러나 제로가 그곳에서 실종되는 사고가 일어난다.",
-  "엑스와 에이리아는\n제로를 찾기 위한 모험을 떠나게 되는데..."
+  "매버릭 전쟁이 끝나고 30년 후...",
+  "그러나 제로는 실종되었다."
 ];
 
 const dialogue = [
-  "엑스: 그래서… 제로는 어디에 있는 거지?",
-  "에이리아: 아직 정확한 위치는 파악되지 않았어.\n하지만 누군가 의도적으로 제로의 신호를 교란하고 있어.",
-  "에이리아: 확실한 건, 제로가 납치되었다는 거야.\n마지막 반응은… 매버릭 쓰레기장 인근이었어.",
-  "(경보음이 울린다)",
-  "에이리아: 엑스! 전국에서 강력한 매버릭 신호 다섯 개가 동시에 감지됐어!",
-  "엑스: 다섯 개나…?",
-  "에이리아: 신호 중 네 개는 30년 전 파괴된 매버릭이야.",
-  "에이리아: 나머지 하나는… 매우 오래된 데이터야.",
-  "엑스: 구형 로봇까지…?\n대체 누가 이런 짓을…",
-  "에이리아: 남극의 칠 펭귄.\n이집트의 그라운드 스카라비치.",
-  "에이리아: 독일의 정체불명의 구식 로봇.\n인도의 톡식 시호스.\n미국의 런처 옥토퍼스.",
-  "엑스: 시그마는 사라졌을 텐데…\n그럼 배후가 따로 있다는 건가?",
-  "에이리아: 지금은 세계를 안정시키는 게 우선이야.",
-  "에이리아: 엑스, 다섯 매버릭을 저지해 줘.",
-  "엑스: 알겠어.\n지금 당장 출동한다!"
+  "엑스: 제로는 어디에 있는 거지?",
+  "에이리아: 아직 위치를 파악하지 못했어."
 ];
 
 let mode = "story";
 let line = 0;
 let char = 0;
 let typing = false;
-let typingTimer = null;
+let timer;
 const speed = 35;
 
-/* ===== 타이틀 → 인트로 ===== */
-startBtn.addEventListener("click", () => {
+startBtn.onclick = () => {
   titleScreen.classList.remove("active");
   introScreen.classList.add("active");
   resetTyping();
   updateMugshot();
   typeText();
-});
+};
 
-/* ===== 머그샷 처리 ===== */
 function updateMugshot() {
   mugshot.style.display = "none";
-
   if (mode !== "dialogue") return;
 
-  const text = dialogue[line];
-  if (text.startsWith("엑스:")) {
-    mugshot.src = "images/X_mugshot.png";
-    mugshot.style.display = "block";
-  } else if (text.startsWith("에이리아:")) {
-    mugshot.src = "images/Alia_mugshot.png";
-    mugshot.style.display = "block";
-  }
+  const t = dialogue[line];
+  if (t.startsWith("엑스:")) mugshot.src = "images/X_mugshot.png";
+  else if (t.startsWith("에이리아:")) mugshot.src = "images/Alia_mugshot.png";
+  mugshot.style.display = "block";
 }
 
-/* ===== 타이핑 ===== */
 function typeText() {
   typing = true;
-  const source = mode === "story" ? story : dialogue;
-
-  if (char < source[line].length) {
-    textEl.textContent += source[line][char++];
-    typingTimer = setTimeout(typeText, speed);
-  } else {
-    typing = false;
-  }
+  const src = mode === "story" ? story : dialogue;
+  if (char < src[line].length) {
+    textEl.textContent += src[line][char++];
+    timer = setTimeout(typeText, speed);
+  } else typing = false;
 }
 
 function nextLine() {
   if (typing) {
-    clearTimeout(typingTimer);
+    clearTimeout(timer);
     typing = false;
     return;
   }
 
   line++;
-  const source = mode === "story" ? story : dialogue;
+  const src = mode === "story" ? story : dialogue;
 
-  if (line < source.length) {
+  if (line < src.length) {
     resetTyping();
     updateMugshot();
     typeText();
@@ -345,32 +163,25 @@ function nextLine() {
     resetTyping();
     updateMugshot();
     typeText();
-  } else {
-    location.href = "select.html";
-  }
+  } else location.href = "select.html";
 }
 
 function resetTyping() {
-  clearTimeout(typingTimer);
+  clearTimeout(timer);
   char = 0;
-  typing = false;
   textEl.textContent = "";
 }
 
 introScreen.addEventListener("touchstart", nextLine);
 
-/* ===== 스킵 ===== */
-skipBtn.addEventListener("click", () => {
-  location.href = "select.html";
-});
+skipBtn.onclick = () => location.href = "select.html";
 
-/* ===== 데이터 리셋 ===== */
-resetBtn.addEventListener("click", () => {
+resetBtn.onclick = () => {
   if (confirm("모든 진행 상황을 초기화할까요?")) {
     localStorage.removeItem("playerData");
     location.reload();
   }
-});
+};
 </script>
 
 </body>
