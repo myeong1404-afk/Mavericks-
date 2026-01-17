@@ -65,7 +65,6 @@ h1 {
   font-weight: bold;
 }
 
-/* 하단 버튼 */
 .menu-buttons {
   display: flex;
   gap: 10px;
@@ -80,13 +79,8 @@ h1 {
   color: white;
 }
 
-#shopBtn {
-  background: #600;
-}
-
-#statusBtn {
-  background: #064;
-}
+#shopBtn { background: #600; }
+#statusBtn { background: #064; }
 </style>
 </head>
 
@@ -96,27 +90,27 @@ h1 {
   <h1>STAGE SELECT</h1>
 
   <div class="stage-grid">
-    <div class="stage-card" onclick="notReady()">
+    <div class="stage-card" onclick="selectStage('chill')">
       <img src="images/Chill_penguin_mugshot.png" class="boss-face">
       <div class="boss-name">칠 펭귄</div>
     </div>
 
-    <div class="stage-card" onclick="notReady()">
+    <div class="stage-card" onclick="selectStage('scaravich')">
       <img src="images/Ground_scaravich_mugshot.png" class="boss-face">
       <div class="boss-name">그라운드 스카라비치</div>
     </div>
 
-    <div class="stage-card" onclick="notReady()">
+    <div class="stage-card" onclick="selectStage('metal')">
       <img src="images/Metal_man_mugshot.png" class="boss-face">
       <div class="boss-name">메탈맨</div>
     </div>
 
-    <div class="stage-card" onclick="notReady()">
+    <div class="stage-card" onclick="selectStage('toxic')">
       <img src="images/Toxic_seahorse_mugshot.png" class="boss-face">
       <div class="boss-name">톡식 시호스</div>
     </div>
 
-    <div class="stage-card" onclick="notReady()">
+    <div class="stage-card" onclick="selectStage('octopus')">
       <img src="images/Launch_octopus_mugshot.png" class="boss-face">
       <div class="boss-name">런처 옥토퍼스</div>
     </div>
@@ -128,12 +122,68 @@ h1 {
   </div>
 </div>
 
-<script src="data.js"></script>
 <script>
-function notReady() {
-  alert("아직 준비 중입니다.");
+/* ===== 플레이어 데이터 (임시) ===== */
+const playerLevel = 1;
+
+/* ===== 스테이지 데이터 ===== */
+const stages = {
+  chill: {
+    name: "칠 펭귄",
+    mission: "남극의 인공 눈사태의 원인을 밝혀라",
+    level: 1
+  },
+  scaravich: {
+    name: "그라운드 스카라비치",
+    mission: "이집트 유물 박물관의 유물 절도꾼을 사수하라",
+    level: 2
+  },
+  metal: {
+    name: "메탈맨",
+    mission: "독일의 컨베이어 공장의 매버릭들의 음모를 저지하라",
+    level: 3
+  },
+  toxic: {
+    name: "톡식 시호스",
+    mission: "인도의 대형 댐의 독극물 테러를 막아라",
+    level: 4
+  },
+  octopus: {
+    name: "런처 옥토퍼스",
+    mission: "미 해군기지를 장악한 매버릭들을 파괴하라",
+    level: 5
+  }
+};
+
+/* ===== 스테이지 선택 ===== */
+function selectStage(key) {
+  const stage = stages[key];
+
+  const info =
+`[${stage.name}]
+미션: ${stage.mission}
+권장 레벨: ${stage.level}`;
+
+  alert(info);
+
+  // 레벨 체크
+  if (playerLevel < stage.level) {
+    const diff = stage.level - playerLevel;
+    const warning = confirm(
+      `⚠ 주의
+플레이어 레벨이 권장 레벨보다 ${diff}만큼 낮습니다.
+그래도 입장하시겠습니까?`
+    );
+    if (!warning) return;
+  }
+
+  const enter = confirm("입장하시겠습니까?");
+  if (!enter) return;
+
+  alert("스테이지 인트로 준비 중입니다.");
 }
 
+/* ===== 메뉴 ===== */
 function goShop() {
   location.href = "shop.html";
 }
