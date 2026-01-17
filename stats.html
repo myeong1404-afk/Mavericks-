@@ -16,81 +16,87 @@ body {
 .container {
   max-width: 420px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 12px;
 }
 
 h1 {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 12px;
+  text-align: center;
+  margin-bottom: 16px;
 }
 
-.section {
-  margin-top: 28px;
+h2 {
+  border-bottom: 1px solid #444;
+  padding-bottom: 4px;
+  font-size: 18px;
+  margin-top: 24px;
 }
 
-.section-title {
-  font-size: 20px;
-  font-weight: bold;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #333;
-  margin-bottom: 12px;
+.item {
+  background: #222;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 10px;
 }
 
-.row {
+.stat-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
+  padding: 6px 0;
   font-size: 16px;
 }
 
-.row span:last-child {
+.stat-row span:last-child {
   font-weight: bold;
+}
+
+.equip .stat-row span:last-child {
+  cursor: pointer;
+  color: #ffcc00;
 }
 
 .inventory-row {
+  background: #222;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 8px;
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
   font-size: 16px;
-}
-
-.inventory-row span:last-child {
-  opacity: 0.85;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
-  <h1>플레이어 정보</h1>
+  <h1>Status</h1>
 
-  <div class="section">
-    <div class="section-title">플레이어 정보</div>
-    <div class="row"><span>이름</span><span id="name"></span></div>
-    <div class="row"><span>직업</span><span id="job"></span></div>
-    <div class="row"><span>레벨</span><span id="level"></span></div>
-    <div class="row"><span>체력</span><span id="hp"></span></div>
-    <div class="row"><span>공격력</span><span id="atk"></span></div>
-    <div class="row"><span>방어력</span><span id="def"></span></div>
-    <div class="row"><span>민첩성</span><span id="agi"></span></div>
-    <div class="row"><span>마법력</span><span id="mag"></span></div>
-    <div class="row"><span>MP</span><span id="mp"></span></div>
+  <h2>플레이어 정보</h2>
+  <div class="item">
+    <div class="stat-row"><span>이름</span><span id="name"></span></div>
+    <div class="stat-row"><span>직업</span><span id="job"></span></div>
+    <div class="stat-row"><span>레벨</span><span id="level"></span></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">장착 장비</div>
-    <div class="row"><span>헬멧</span><span id="helmet"></span></div>
-    <div class="row"><span>장갑</span><span id="gloves"></span></div>
-    <div class="row"><span>갑옷</span><span id="armor"></span></div>
-    <div class="row"><span>부츠</span><span id="boots"></span></div>
+  <h2>능력치</h2>
+  <div class="item">
+    <div class="stat-row"><span>체력</span><span id="hp"></span></div>
+    <div class="stat-row"><span>공격력</span><span id="atk"></span></div>
+    <div class="stat-row"><span>방어력</span><span id="def"></span></div>
+    <div class="stat-row"><span>민첩성</span><span id="agi"></span></div>
+    <div class="stat-row"><span>마법력</span><span id="mag"></span></div>
+    <div class="stat-row"><span>MP</span><span id="mp"></span></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">소지 아이템</div>
-    <div id="inventory"></div>
+  <h2>장착 장비</h2>
+  <div class="item equip">
+    <div class="stat-row"><span>헬멧</span><span id="helmet"></span></div>
+    <div class="stat-row"><span>장갑</span><span id="gloves"></span></div>
+    <div class="stat-row"><span>갑옷</span><span id="armor"></span></div>
+    <div class="stat-row"><span>부츠</span><span id="boots"></span></div>
   </div>
+
+  <h2>소지 아이템</h2>
+  <div id="inventory"></div>
 </div>
 
   <script src="data.js"></script>
