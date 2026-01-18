@@ -145,8 +145,8 @@ function updateMugshot() {
   if (mode !== "dialogue") return;
 
   const t = dialogue[line];
-  if (t.startsWith("엑스:")) mugshot.src = "images/X_mugshot.png";
-  else if (t.startsWith("에이리아:")) mugshot.src = "images/Alia_mugshot.png";
+  if (t.startsWith("엑스:")) mugshot.src = "images/Mugshots/X_mugshot.png";
+  else if (t.startsWith("에이리아:")) mugshot.src = "images/Mugshots/Alia_mugshot.png";
   else return;
 
   mugshot.style.display = "block";
