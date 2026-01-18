@@ -63,6 +63,14 @@ h2 {
   justify-content: space-between;
   font-size: 16px;
 }
+
+.skill-row {
+  background: #222;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+  font-size: 15px;
+}
 </style>
 </head>
 
@@ -99,6 +107,10 @@ h2 {
   <div id="inventory"></div>
 </div>
 
+  <h2>스킬</h2>
+<div id="skills"></div>
+</div>
+
   <script src="data.js"></script>
 
 <script>
@@ -126,6 +138,22 @@ Object.entries(playerData.inventory).forEach(([name, count]) => {
   div.className = "inventory-row";
   div.innerHTML = `<span>${name}</span><span>x${count}</span>`;
   inv.appendChild(div);
+  
+const skillBox = document.getElementById("skills");
+
+playerData.skills.forEach(skill => {
+  const div = document.createElement("div");
+  div.className = "skill-row";
+
+  if (skill === "X 버스터") {
+    div.textContent = "X 버스터 : X의 버스터, MP소모 0";
+  }
+
+  if (skill === "에너지 캡슐") {
+    div.textContent = "에너지 캡슐 : 에너지의 캡슐을 둘러 파티의 체력을 회복한다";
+  }
+
+  skillBox.appendChild(div);
 });
  const slots = ["helmet", "gloves", "armor", "boots"];
 
