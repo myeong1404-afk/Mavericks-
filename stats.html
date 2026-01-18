@@ -137,6 +137,7 @@ Object.entries(playerData.inventory).forEach(([name, count]) => {
   div.className = "inventory-row";
   div.innerHTML = `<span>${name}</span><span>x${count}</span>`;
   inv.appendChild(div);
+});
   
 const skillBox = document.getElementById("skills");
 
