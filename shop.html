@@ -94,7 +94,8 @@ button {
     {section:"부츠 (민첩성)", name:"C급 부츠", desc:"민첩성 +2", price:300, type:"boots"},
     {section:"부츠 (민첩성)", name:"B급 부츠", desc:"민첩성 +4", price:700, type:"boots"},
     {section:"부츠 (민첩성)", name:"A급 부츠", desc:"민첩성 +6", price:1400, type:"boots"},   
-    {section:"부츠 (민첩성)", name:"S급 부츠", desc:"민첩성 +9", price:2500, type:"boots"}
+    {section:"부츠 (민첩성)", name:"S급 부츠", desc:"민첩성 +9", price:2500, type:"boots"},
+    {section:"스킬", name:"에너지 캡슐", desc:"에너지의 캡슐을 둘러 파티의 체력을 회복한다, MP소모 60", price:4000, type:"skill"}
   ];
 
   const shopList = document.getElementById("shopList");
@@ -128,6 +129,33 @@ button {
       `;
 
       div.querySelector("button").onclick = () => {
+
+  // 🔹 스킬 구매
+  if (item.type === "skill") {
+    const ok = confirm("구매하면 에너지 캡슐이 스킬에 등록될거야, 구매할래?");
+    if (!ok) return;
+
+    if (playerData.money < item.price) {
+      alert("돈이 부족해");
+      return;
+    }
+
+    // 이미 있으면 구매 불가
+    if (playerData.skills.includes(item.name)) {
+      alert("이미 보유한 스킬이야");
+      return;
+    }
+
+    playerData.money -= item.price;
+    playerData.skills.push(item.name);
+
+    savePlayerData(playerData);
+    updateMoney();
+    alert("스킬 습득!");
+    return;
+  }
+
+  // 🔹 기존 아이템 구매 로직
   const qty = prompt("몇 개 살까?");
   if (qty === null) return;
 
@@ -139,20 +167,10 @@ button {
 
   playerData.money -= total;
 
-  // 🔹 소모 아이템이면 인벤토리에 추가
-  if (item.type === "item") {
-    if (!playerData.inventory[item.name]) {
-      playerData.inventory[item.name] = 0;
-    }
-    playerData.inventory[item.name] += count;
-  }
- // 🔹 장비면 인벤토리에 추가
-if (item.type !== "item") {
   if (!playerData.inventory[item.name]) {
     playerData.inventory[item.name] = 0;
   }
   playerData.inventory[item.name] += count;
-}
 
   savePlayerData(playerData);
   updateMoney();
