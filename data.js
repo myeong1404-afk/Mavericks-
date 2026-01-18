@@ -30,7 +30,10 @@ const defaultPlayerData = {
     "MP 탱크": 0,
     "스페셜 탱크": 0,
     "큐어 탱크": 0
-  }
+  },
+ skills:["X 버스터"]
+}
+
 };
 
 const equipmentBonus = {
