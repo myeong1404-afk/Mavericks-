@@ -3,7 +3,7 @@ const defaultPlayerData = {
   name: "엑스",
   job: "헌터",
   level: 1,
-  money: 2000,
+  money: 9999,
 
   baseStats: {
     hp: 100,
