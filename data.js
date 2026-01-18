@@ -31,11 +31,11 @@ const defaultPlayerData = {
     "스페셜 탱크": 0,
     "큐어 탱크": 0
   },
- skills:["X 버스터"]
-}
 
+  skills: ["X 버스터"]
 };
 
+/* ===== 장비 보너스 ===== */
 const equipmentBonus = {
   "C급 헬멧": { magic: 2 },
   "B급 헬멧": { magic: 4 },
@@ -58,31 +58,42 @@ const equipmentBonus = {
   "S급 부츠": { agility: 9 }
 };
 
+/* ===== 로드 ===== */
 function loadPlayerData() {
   let data = JSON.parse(localStorage.getItem("playerData"));
 
   if (!data) {
+    // 🔹 완전 초기화
     data = JSON.parse(JSON.stringify(defaultPlayerData));
+    localStorage.setItem("playerData", JSON.stringify(data));
   }
 
-  // ⭐ 무조건 스탯 재계산
-  recalcStats(data);
-  savePlayerData(data);
+  // 🔹 세이브 버전 대응
+  if (!data.baseStats) data.baseStats = { ...defaultPlayerData.baseStats };
+  if (!data.stats) data.stats = {};
+  if (!Array.isArray(data.skills)) data.skills = ["X 버스터"];
+  if (!data.inventory) data.inventory = {};
+  if (!data.equipment) {
+    data.equipment = { helmet:null, gloves:null, armor:null, boots:null };
+  }
 
+  recalcStats(data);
   return data;
 }
 
+/* ===== 저장 ===== */
 function savePlayerData(data) {
   localStorage.setItem("playerData", JSON.stringify(data));
 }
 
+/* ===== 스탯 재계산 ===== */
 function recalcStats(data) {
   data.stats = { ...data.baseStats };
 
   Object.values(data.equipment).forEach(eq => {
     if (eq && equipmentBonus[eq]) {
       for (const key in equipmentBonus[eq]) {
-        data.stats[key] += equipmentBonus[eq][key];
+        data.stats[key] = (data.stats[key] || 0) + equipmentBonus[eq][key];
       }
     }
   });
