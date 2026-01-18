@@ -1,1 +1,164 @@
 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Stage Start</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: "Malgun Gothic", sans-serif;
+}
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url("images/Stagestart/Stagestart_bg.png") no-repeat center center;
+  background-size: cover;
+}
+
+/* 매버릭 로고 */
+#logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  transform: translate(-50%, -50%);
+}
+
+/* 플래시 */
+.flash {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 보스 */
+#bossBox {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: none;
+}
+
+#bossSprite {
+  width: 200px;
+}
+
+#bossName {
+  margin-top: 12px;
+  font-size: 22px;
+  color: white;
+  text-transform: lowercase;
+}
+
+#ready {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+#okBtn {
+  margin-top: 16px;
+  padding: 10px 20px;
+  font-size: 14px;
+  background: #c00;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="scene">
+  <img id="logo" src="images/Stagestart/Stagestart_mavericklogo.png">
+  <div id="flash" class="flash"></div>
+
+  <div id="bossBox">
+    <img id="bossSprite">
+    <div id="bossName"></div>
+    <div id="ready">준비중입니다</div>
+    <button id="okBtn">확인</button>
+  </div>
+</div>
+
+<script>
+/* ===== 보스 데이터 ===== */
+const bossData = {
+  chill: {
+    name: "chill penguin",
+    sprite: "images/sprites/Chillpenguin/penguindefault.png"
+  },
+  scaravich: {
+    name: "ground scaravich",
+    sprite: "images/sprites/Groundscaravich/Scaravichdefault.png"
+  },
+  metal: {
+    name: "metal man",
+    sprite: "images/sprites/Metalman/Metaldefault.png"
+  },
+  toxic: {
+    name: "toxic seahorse",
+    sprite: "images/sprites/Toxicseahorse/Seahorsedefault.png"
+  },
+  octopus: {
+    name: "launch octopus",
+    sprite: "images/sprites/Launchoctopus/Octopusdefault.png"
+  }
+};
+
+/* ===== 선택된 보스 불러오기 ===== */
+const selected = localStorage.getItem("selectedStage");
+const boss = bossData[selected];
+
+const flash = document.getElementById("flash");
+const logo = document.getElementById("logo");
+const bossBox = document.getElementById("bossBox");
+const bossSprite = document.getElementById("bossSprite");
+const bossName = document.getElementById("bossName");
+
+/* ===== 플래시 3번 ===== */
+let count = 0;
+
+function flashEffect() {
+  flash.style.opacity = 1;
+  setTimeout(() => {
+    flash.style.opacity = 0;
+    count++;
+    if (count < 3) {
+      setTimeout(flashEffect, 200);
+    } else {
+      showBoss();
+    }
+  }, 120);
+}
+
+function showBoss() {
+  logo.style.display = "none";
+  bossSprite.src = boss.sprite;
+  bossName.textContent = boss.name;
+  bossBox.style.display = "block";
+}
+
+/* 시작 */
+setTimeout(flashEffect, 500);
+
+/* 확인 버튼 */
+document.getElementById("okBtn").onclick = () => {
+  location.href = "select.html";
+};
+</script>
+
+</body>
+</html>
