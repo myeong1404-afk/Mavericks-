@@ -17,9 +17,18 @@ body {
 #scene {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
+  background: black;
+  overflow: hidden;
+}
+
+/* 우주 배경 */
+#bg {
+  position: absolute;
+  inset: 0;
   background: url("images/Stagestart/Stagestart_bg.png") no-repeat center center;
   background-size: cover;
+  opacity: 0;
 }
 
 /* 매버릭 로고 */
@@ -27,12 +36,24 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 260px;
+  height: 45vh;
+  width: auto;
   transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+/* 보스 */
+#bossSprite {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 2s linear;
 }
 
 /* 플래시 */
-.flash {
+#flash {
   position: absolute;
   inset: 0;
   background: white;
@@ -40,27 +61,17 @@ body {
   pointer-events: none;
 }
 
-/* 보스 */
-#bossBox {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  display: none;
-}
-
-#bossSprite {
-  width: 200px;
-}
-
+/* 보스 이름 */
 #bossName {
-  margin-top: 12px;
-  font-size: 22px;
-  color: white;
-  text-transform: lowercase;
+  position: absolute;
+  bottom: 18%;
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: #7feaff;
+  opacity: 0;
 }
-
 #ready {
   margin-top: 6px;
   font-size: 14px;
@@ -96,68 +107,77 @@ body {
 <script>
 /* ===== 보스 데이터 ===== */
 const bossData = {
-  chill: {
-    name: "chill penguin",
-    sprite: "images/sprites/Chillpenguin/penguindefault.png"
-  },
   scaravich: {
-    name: "ground scaravich",
-    sprite: "images/sprites/Groundscaravich/Scaravichdefault.png"
+    name: "GROUND SCARAVICH",
+    sprite: "images/sprites/Groundscaravich/Scaravichdefault.png",
+    size: 22
+  },
+  chill: {
+    name: "CHILL PENGUIN",
+    sprite: "images/sprites/Chillpenguin/penguindefault.png",
+    size: 28
   },
   metal: {
-    name: "metal man",
-    sprite: "images/sprites/Metalman/Metaldefault.png"
-  },
-  toxic: {
-    name: "toxic seahorse",
-    sprite: "images/sprites/Toxicseahorse/Seahorsedefault.png"
+    name: "METAL MAN",
+    sprite: "images/sprites/Metalman/Metaldefault.png",
+    size: 30
   },
   octopus: {
-    name: "launch octopus",
-    sprite: "images/sprites/Launchoctopus/Octopusdefault.png"
+    name: "LAUNCH OCTOPUS",
+    sprite: "images/sprites/Launchoctopus/Octopusdefault.png",
+    size: 32
+  },
+  toxic: {
+    name: "TOXIC SEAHORSE",
+    sprite: "images/sprites/Toxicseahorse/Seahorsedefault.png",
+    size: 34
   }
 };
 
-/* ===== 선택된 보스 불러오기 ===== */
-const selected = localStorage.getItem("selectedStage");
-const boss = bossData[selected];
-
-const flash = document.getElementById("flash");
+const bg = document.getElementById("bg");
 const logo = document.getElementById("logo");
-const bossBox = document.getElementById("bossBox");
+const flash = document.getElementById("flash");
 const bossSprite = document.getElementById("bossSprite");
 const bossName = document.getElementById("bossName");
 
-/* ===== 플래시 3번 ===== */
-let count = 0;
+const selected = localStorage.getItem("selectedStage");
+const boss = bossData[selected];
 
-function flashEffect() {
+bossSprite.src = boss.sprite;
+bossSprite.style.height = boss.size + "vh";
+bossName.textContent = boss.name;
+
+function flashOnce(callback) {
   flash.style.opacity = 1;
   setTimeout(() => {
     flash.style.opacity = 0;
-    count++;
-    if (count < 3) {
-      setTimeout(flashEffect, 200);
-    } else {
-      showBoss();
-    }
+    if (callback) callback();
   }, 120);
 }
 
-function showBoss() {
-  logo.style.display = "none";
-  bossSprite.src = boss.sprite;
-  bossName.textContent = boss.name;
-  bossBox.style.display = "block";
-}
-
 /* 시작 */
-setTimeout(flashEffect, 500);
+setTimeout(() => {
+  flashOnce(() => bg.style.opacity = 1);
+}, 2000);
 
-/* 확인 버튼 */
-document.getElementById("okBtn").onclick = () => {
+setTimeout(() => {
+  flashOnce(() => logo.style.opacity = 1);
+}, 3000);
+
+setTimeout(() => {
+  bossSprite.style.opacity = 1;
+}, 3000);
+
+setTimeout(() => {
+  flashOnce(() => {
+    bg.style.opacity = 0;
+    bossName.style.opacity = 1;
+  });
+}, 5500);
+
+setTimeout(() => {
   location.href = "select.html";
-};
+}, 6500);
 </script>
 
 </body>
