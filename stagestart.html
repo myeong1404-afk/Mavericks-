@@ -80,6 +80,7 @@ body {
 </head>
 
 <body>
+  <audio id="bgm" src="audio/Stagestart.mp3" preload="auto"></audio>
 
 <div id="scene">
   <div id="bg"></div>
@@ -175,6 +176,27 @@ setTimeout(() => {
 setTimeout(() => {
   location.href = "select.html";
 }, 6500);
+  const bgm = document.getElementById("bgm");
+
+/* ===== 음악 재생 시도 ===== */
+function playBGM() {
+  bgm.volume = 0.6;
+  bgm.play().catch(() => {
+    console.log("자동 재생 차단됨 - 사용자 입력 대기");
+  });
+}
+
+/* 연출 시작과 동시에 음악 시도 */
+playBGM();
+
+/* 혹시 자동재생이 막혔을 경우 대비 (첫 터치 시 재생) */
+document.addEventListener("touchstart", () => {
+  if (bgm.paused) playBGM();
+}, { once: true });
+
+document.addEventListener("click", () => {
+  if (bgm.paused) playBGM();
+}, { once: true });
 </script>
 
 </body>
