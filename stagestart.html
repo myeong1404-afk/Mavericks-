@@ -174,8 +174,10 @@ setTimeout(() => {
 
 /* 6.5초 → 스테이지 선택으로 */
 setTimeout(() => {
+  bgm.pause();
+  bgm.currentTime = 0;
   location.href = "select.html";
-}, 6500);
+}, 8000);
   const bgm = document.getElementById("bgm");
 
 /* ===== 음악 재생 시도 ===== */
