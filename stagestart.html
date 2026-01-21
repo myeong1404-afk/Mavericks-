@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -29,6 +28,7 @@ body {
   background: url("images/Stagestart/Stagestart_bg.png") no-repeat center center;
   background-size: cover;
   opacity: 0;
+  z-index: 1;
 }
 
 /* 매버릭 로고 */
@@ -37,12 +37,13 @@ body {
   top: 50%;
   left: 50%;
   height: 45vh;
-  width: auto;
+  max-width: 100vw;
   transform: translate(-50%, -50%);
   opacity: 0;
+  z-index: 2;
 }
 
-/* 보스 */
+/* 보스 스프라이트 */
 #bossSprite {
   position: absolute;
   top: 50%;
@@ -50,15 +51,7 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 2s linear;
-}
-
-/* 플래시 */
-#flash {
-  position: absolute;
-  inset: 0;
-  background: white;
-  opacity: 0;
-  pointer-events: none;
+  z-index: 3;
 }
 
 /* 보스 이름 */
@@ -71,21 +64,17 @@ body {
   letter-spacing: 4px;
   color: #7feaff;
   opacity: 0;
-}
-#ready {
-  margin-top: 6px;
-  font-size: 14px;
-  opacity: 0.8;
+  z-index: 4;
 }
 
-#okBtn {
-  margin-top: 16px;
-  padding: 10px 20px;
-  font-size: 14px;
-  background: #c00;
-  border: none;
-  color: white;
-  border-radius: 6px;
+/* 플래시 */
+#flash {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
 }
 </style>
 </head>
@@ -93,15 +82,11 @@ body {
 <body>
 
 <div id="scene">
+  <div id="bg"></div>
   <img id="logo" src="images/Stagestart/Stagestart_mavericklogo.png">
-  <div id="flash" class="flash"></div>
-
-  <div id="bossBox">
-    <img id="bossSprite">
-    <div id="bossName"></div>
-    <div id="ready">준비중입니다</div>
-    <button id="okBtn">확인</button>
-  </div>
+  <img id="bossSprite">
+  <div id="bossName"></div>
+  <div id="flash"></div>
 </div>
 
 <script>
@@ -115,7 +100,7 @@ const bossData = {
   chill: {
     name: "CHILL PENGUIN",
     sprite: "images/sprites/Chillpenguin/penguindefault.png",
-    size: 28
+    size: 26
   },
   metal: {
     name: "METAL MAN",
@@ -134,19 +119,21 @@ const bossData = {
   }
 };
 
+const selected = localStorage.getItem("selectedStage");
+const boss = bossData[selected];
+
 const bg = document.getElementById("bg");
 const logo = document.getElementById("logo");
 const flash = document.getElementById("flash");
 const bossSprite = document.getElementById("bossSprite");
 const bossName = document.getElementById("bossName");
 
-const selected = localStorage.getItem("selectedStage");
-const boss = bossData[selected];
-
+/* 보스 설정 */
 bossSprite.src = boss.sprite;
 bossSprite.style.height = boss.size + "vh";
 bossName.textContent = boss.name;
 
+/* 플래시 */
 function flashOnce(callback) {
   flash.style.opacity = 1;
   setTimeout(() => {
@@ -155,19 +142,28 @@ function flashOnce(callback) {
   }, 120);
 }
 
-/* 시작 */
+/* ===== 연출 타임라인 ===== */
+
+/* 2초 후 → 우주 배경 */
 setTimeout(() => {
-  flashOnce(() => bg.style.opacity = 1);
+  flashOnce(() => {
+    bg.style.opacity = 1;
+  });
 }, 2000);
 
+/* 3초 → 로고 */
 setTimeout(() => {
-  flashOnce(() => logo.style.opacity = 1);
+  flashOnce(() => {
+    logo.style.opacity = 1;
+  });
 }, 3000);
 
+/* 3초 → 보스 페이드인 */
 setTimeout(() => {
   bossSprite.style.opacity = 1;
 }, 3000);
 
+/* 5.5초 → 배경 제거 + 이름 */
 setTimeout(() => {
   flashOnce(() => {
     bg.style.opacity = 0;
@@ -175,6 +171,7 @@ setTimeout(() => {
   });
 }, 5500);
 
+/* 6.5초 → 스테이지 선택으로 */
 setTimeout(() => {
   location.href = "select.html";
 }, 6500);
