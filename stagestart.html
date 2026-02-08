@@ -172,11 +172,16 @@ setTimeout(() => {
   });
 }, 5500);
 
-/* 6.5초 → 스테이지 선택으로 */
+/* 6.5초 → 전투로 이동 */
 setTimeout(() => {
   bgm.pause();
   bgm.currentTime = 0;
-  location.href = "select.html";
+
+  if (selected === "chill") {
+    location.href = "Battle/Chillpenguin/battle.html";
+  } else {
+    location.href = "select.html";
+  }
 }, 9000);
   const bgm = document.getElementById("bgm");
 
