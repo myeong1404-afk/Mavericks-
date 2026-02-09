@@ -167,7 +167,27 @@ window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
 /* ===== 데이터 로드 ===== */
-const player = loadPlayerData();
+/* ===== READY 연출 (가장 먼저 실행) ===== */
+const readyBox = document.getElementById("ready");
+const readySfx = document.getElementById("readySfx");
+
+setTimeout(() => {
+  readyBox.style.display = "none";
+  teleportIn();
+}, 1500);
+
+/* 오디오는 모바일 정책 때문에 실패해도 OK */
+readySfx.play().catch(() => {});
+
+/* ===== 데이터 로드 (에러 보호) ===== */
+let player;
+
+try {
+  player = loadPlayerData();
+} catch (e) {
+  alert("세이브 데이터 로드 실패\n콘솔을 확인하세요");
+  console.error("loadPlayerData 오류:", e);
+}
 
 const boss = {
   name: "칠 펭귄",
