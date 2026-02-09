@@ -155,40 +155,34 @@ button {
 /* ===== 가로화면 체크 ===== */
 function checkOrientation() {
   const notice = document.getElementById("rotateNotice");
-  if (window.innerWidth < window.innerHeight) {
-    notice.style.display = "flex";
-  } else {
-    notice.style.display = "none";
-  }
+  notice.style.display =
+    window.innerWidth < window.innerHeight ? "flex" : "none";
 }
-
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
-/* ===== 데이터 로드 ===== */
-/* ===== READY 연출 (가장 먼저 실행) ===== */
+/* ===== READY 연출 ===== */
 const readyBox = document.getElementById("ready");
 const readySfx = document.getElementById("readySfx");
+
+readySfx.play().catch(() => {});
 
 setTimeout(() => {
   readyBox.style.display = "none";
   teleportIn();
 }, 1500);
 
-/* 오디오는 모바일 정책 때문에 실패해도 OK */
-readySfx.play().catch(() => {});
-
-/* ===== 데이터 로드 (에러 보호) ===== */
+/* ===== 데이터 로드 ===== */
 let player;
-
 try {
   player = loadPlayerData();
 } catch (e) {
-  alert("세이브 데이터 로드 실패\n콘솔을 확인하세요");
-  console.error("loadPlayerData 오류:", e);
+  alert("세이브 데이터 로드 실패");
+  console.error(e);
 }
 
+/* ===== 보스 ===== */
 const boss = {
   name: "칠 펭귄",
   maxHp: 180,
@@ -204,17 +198,6 @@ function calcDamage(base, defense) {
 function checkEvade(agi) {
   return Math.random() * 100 < Math.min(30, agi * 2);
 }
-
-/* ===== READY 연출 ===== */
-const readyBox = document.getElementById("ready");
-const readySfx = document.getElementById("readySfx");
-
-readySfx.play().catch(()=>{});
-
-setTimeout(() => {
-  readyBox.style.display = "none";
-  teleportIn();
-}, 1500);
 
 /* ===== 텔레포트 ===== */
 function teleportIn() {
