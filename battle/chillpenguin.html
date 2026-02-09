@@ -86,6 +86,7 @@ body {
 
 /* READY */
 #ready {
+  transition: opacity 0.3s;
   position: absolute;
   inset: 0;
   display: flex;
@@ -179,7 +180,28 @@ window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
 /* 데이터 */
-let player = loadPlayerData();
+let player;
+
+try {
+  player = loadPlayerData();
+} catch (e) {
+  console.error(e);
+}
+
+if (!player || !player.stats) {
+  // 🔥 임시 더미 플레이어 (세이브 없어도 실행되게)
+  player = {
+    level: 1,
+    guard: false,
+    baseStats: { hp: 100 },
+    stats: {
+      hp: 100,
+      attack: 16,
+      defense: 8,
+      agility: 5
+    }
+  };
+    }
 const boss = { maxHp: 180, hp: 180 };
 
 /* 데미지 공식 */
