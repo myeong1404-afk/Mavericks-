@@ -78,6 +78,10 @@ h1 {
   border: none;
   color: white;
 }
+.cleared {
+  filter: grayscale(100%) brightness(60%);
+  pointer-events: auto;
+}
 
 #shopBtn { background: #600; }
 #statusBtn { background: #064; }
@@ -158,7 +162,13 @@ const stages = {
 /* ===== 스테이지 선택 ===== */
 function selectStage(key) {
   const stage = stages[key];
-
+document.querySelectorAll(".stage-card").forEach(card => {
+  const key = card.getAttribute("onclick")?.match(/'(.+)'/)?.[1];
+  if (localStorage.getItem("clear_" + key)) {
+    card.classList.add("cleared");
+    card.onclick = () => alert("이미 클리어한 스테이지입니다.");
+  }
+});
   const info =
 `[${stage.name}]
 미션: ${stage.mission}
