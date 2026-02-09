@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Battle - Chill Penguin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: "Malgun Gothic", sans-serif;
+}
+
+/* ===== 전투 화면 ===== */
+#battle {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  background: url("../images/penguinstage.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+/* 기준 라인 */
+#floor {
+  position: absolute;
+  bottom: 28%;
+  width: 100%;
+  height: 2px;
+}
+
+#ceiling {
+  position: absolute;
+  bottom: calc(28% + 67%);
+  width: 100%;
+  height: 2px;
+}
+
+/* 레버 */
+#lever {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(28% + 67%);
+  width: 64px;
+}
+
+/* ===== 스프라이트 ===== */
+.sprite {
+  position: absolute;
+  bottom: 28%;
+}
+
+#player {
+  left: 10%;
+  width: 96px;
+}
+
+#boss {
+  right: 10%;
+  width: 120px;
+}
+
+/* ===== READY ===== */
+#ready {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  z-index: 10;
+}
+
+#ready img {
+  width: 40%;
+}
+
+/* ===== UI ===== */
+#ui {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  padding: 8px;
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  background: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="battle">
+
+  <div id="floor"></div>
+  <div id="ceiling"></div>
+  <img id="lever" src="../images/Lever.png">
+
+  <img id="player" class="sprite" src="../images/sprites/X/Xidle.png">
+  <img id="boss" class="sprite" src="../images/sprites/Chillpenguin/penguindefault.png">
+
+  <div id="ready">
+    <img src="../images/ready.png">
+  </div>
+
+  <div id="ui">
+    <button onclick="attack()">공격</button>
+    <button onclick="guard()">가드</button>
+    <button onclick="openSkills()">스킬</button>
+    <button onclick="openItems()">아이템</button>
+  </div>
+</div>
+
+<audio id="readySfx" src="../audio/sfx/Ready.wav"></audio>
+<audio id="slideSfx" src="../audio/sfx/Slide.wav"></audio>
+
+<script src="../data.js"></script>
+<script src="../Savedata.js"></script>
+
+<script>
+/* ===== 데이터 로드 ===== */
+const player = loadPlayerData();
+
+const boss = {
+  name: "칠 펭귄",
+  maxHp: 180,
+  hp: 180,
+  attack: 20
+};
+
+/* ===== 공식 ===== */
+function calcDamage(base, defense) {
+  return Math.floor(base * (100 / (100 + defense * 5)));
+}
+
+/* 민첩성 회피 */
+function checkEvade(agi) {
+  const evadeRate = Math.min(30, agi * 2); // 최대 30%
+  return Math.random() * 100 < evadeRate;
+}
+
+/* ===== READY 연출 ===== */
+const readyBox = document.getElementById("ready");
+const readySfx = document.getElementById("readySfx");
+
+readySfx.play();
+setTimeout(() => {
+  readyBox.style.display = "none";
+  teleportIn();
+}, 1500);
+
+/* ===== 텔레포트 ===== */
+function teleportIn() {
+  const p = document.getElementById("player");
+  p.src = "../images/sprites/X/Xteleport1.png";
+}
+
+/* ===== 행동 ===== */
+function attack() {
+  const dmg = calcDamage(player.stats.attack, 0);
+  boss.hp -= dmg;
+  console.log("플레이어 공격:", dmg);
+
+  enemyTurn();
+}
+
+function guard() {
+  player.guard = true;
+  console.log("가드!");
+  enemyTurn();
+}
+
+/* ===== 적 턴 ===== */
+function enemyTurn() {
+  setTimeout(() => {
+    let dmg = Math.floor(Math.random() * 5) + 18;
+
+    if (checkEvade(player.stats.agility)) {
+      console.log("회피!");
+      return;
+    }
+
+    let def = player.stats.defense;
+    if (player.guard) {
+      def += (20 + player.level * 5);
+      player.guard = false;
+    }
+
+    const final = calcDamage(dmg, def);
+    player.stats.hp -= final;
+
+    console.log("칠 펭귄 공격:", final);
+
+    if (player.stats.hp <= 0) {
+      alert("패배...");
+    }
+  }, 600);
+}
+
+/* ===== 승리 처리 ===== */
+function winBattle() {
+  const state = loadGameState();
+  state.bosses.chill_penguin.defeated = true;
+  state.bosses.chill_penguin.skillObtained = true;
+  saveGameState(state);
+
+  player.level++;
+  player.baseStats.hp += 20;
+  player.baseStats.attack += 2;
+  player.baseStats.defense += 1;
+  player.baseStats.agility += 2;
+  player.baseStats.magic += 3;
+  player.baseStats.mp += 10;
+
+  player.skills.push("샷건 아이스");
+
+  recalcStats(player);
+  savePlayerData(player);
+
+  alert("승리!");
+  location.href = "../select.html";
+}
+</script>
+
+</body>
+</html>
