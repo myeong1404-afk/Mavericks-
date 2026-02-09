@@ -4,14 +4,31 @@
 <meta charset="UTF-8">
 <title>Battle - Chill Penguin</title>
 
+<!-- viewport -->
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+<!-- 🔥 PWA / 풀스크린 -->
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
+/* 🔥 추가: 전체 스크롤 차단 */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none; /* 추가로 흔들림 방지 */
+}
+
+/* 기존 body 스타일 */
+body {
+  background: black;
+  font-family: sans-serif;
+}
 body {
   margin: 0;
   background: black;
