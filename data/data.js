@@ -88,10 +88,6 @@ function savePlayerData(data) {
 function saveBattleResult() {
   savePlayerData(player);
 }
-if (boss.hp <= 0) {
-  alert("승리!");
-  saveBattleResult();
-}
 /* ===== 스탯 재계산 ===== */
 function recalcStats(data) {
   data.stats = { ...data.baseStats };
