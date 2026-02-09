@@ -32,7 +32,7 @@ const defaultPlayerData = {
     "큐어 탱크": 0
   },
 
-  skills: ["X 버스터"]
+  skills: []
 };
 
 /* ===== 장비 보너스 ===== */
