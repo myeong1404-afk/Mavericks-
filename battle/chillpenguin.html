@@ -5,21 +5,21 @@
 <title>Battle - Chill Penguin</title>
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no">
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
 <style>
-/* ===== 공통 ===== */
 body {
   margin: 0;
   background: black;
   overflow: hidden;
-  font-family: "Malgun Gothic", sans-serif;
+  font-family: sans-serif;
 }
 
-/* ===== 가로 화면 강제 안내 ===== */
+/* 가로 안내 */
 #rotateNotice {
   position: fixed;
   inset: 0;
@@ -28,43 +28,20 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  z-index: 100;
   font-size: 20px;
+  z-index: 999;
 }
 
-/* ===== 전투 화면 ===== */
+/* 전투 화면 */
 #battle {
   position: relative;
   width: 100vw;
-  height: 100vh;
-  background: url("../images/sprites/Chillpenguin/Penguinstage.jpg") no-repeat center center;
+  height: 100dvh; /* 🔥 중요 */
+  background: url("../images/sprites/Chillpenguin/Penguinstage.jpg") no-repeat center;
   background-size: cover;
 }
 
-/* 기준 라인 */
-#floor {
-  position: absolute;
-  bottom: 28%;
-  width: 100%;
-}
-
-#ceiling {
-  position: absolute;
-  bottom: calc(28% + 67%);
-  width: 100%;
-}
-
-/* 레버 */
-#lever {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(28% + 67%);
-  width: 64px;
-}
-
-/* 스프라이트 */
+/* 바닥 */
 .sprite {
   position: absolute;
   bottom: 28%;
@@ -80,7 +57,34 @@ body {
   width: 120px;
 }
 
-/* ===== READY ===== */
+/* ===== HP UI ===== */
+.hpBar {
+  position: absolute;
+  top: 10px;
+  width: 20px;
+  height: 180px;
+  background: black;
+  border: 2px solid white;
+}
+
+.hpFill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: yellow;
+}
+
+/* 플레이어 HP */
+#playerHP {
+  left: 10px;
+}
+
+/* 보스 HP */
+#bossHP {
+  right: 10px;
+}
+
+/* READY */
 #ready {
   position: absolute;
   inset: 0;
@@ -95,13 +99,13 @@ body {
   width: 40%;
 }
 
-/* ===== UI ===== */
+/* UI 버튼 */
 #ui {
   position: absolute;
-  bottom: 0;
+  bottom: env(safe-area-inset-bottom);
   width: 100%;
   background: rgba(0,0,0,0.8);
-  padding: 8px;
+  padding: 6px;
   display: flex;
   justify-content: space-around;
 }
@@ -119,17 +123,20 @@ button {
 
 <body>
 
-<!-- 가로 화면 안내 -->
-<div id="rotateNotice">
-  📱 화면을 가로로 돌려주세요
-</div>
+<div id="rotateNotice">📱 가로 화면으로 돌려주세요</div>
 
 <div id="battle">
 
-  <div id="floor"></div>
-  <div id="ceiling"></div>
-  <img id="lever" src="../images/sprites/Chillpenguin/Lever.png">
+  <!-- HP UI -->
+  <div id="playerHP" class="hpBar">
+    <div id="playerHPFill" class="hpFill"></div>
+  </div>
 
+  <div id="bossHP" class="hpBar">
+    <div id="bossHPFill" class="hpFill"></div>
+  </div>
+
+  <!-- 캐릭터 -->
   <img id="player" class="sprite" src="../images/sprites/X/Xdefault.png">
   <img id="boss" class="sprite" src="../images/sprites/Chillpenguin/penguindefault.png">
 
@@ -138,12 +145,14 @@ button {
     <img src="../images/Ready.png">
   </div>
 
+  <!-- UI -->
   <div id="ui">
     <button onclick="attack()">공격</button>
     <button onclick="guard()">가드</button>
     <button onclick="openSkills()">스킬</button>
     <button onclick="openItems()">아이템</button>
   </div>
+
 </div>
 
 <audio id="readySfx" src="../audio/sfx/Ready.wav"></audio>
@@ -152,62 +161,47 @@ button {
 <script src="../Savedata.js"></script>
 
 <script>
-/* ===== 가로화면 체크 ===== */
+/* 가로 체크 */
 function checkOrientation() {
-  const notice = document.getElementById("rotateNotice");
-  notice.style.display =
+  document.getElementById("rotateNotice").style.display =
     window.innerWidth < window.innerHeight ? "flex" : "none";
 }
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
-/* ===== READY 연출 ===== */
-const readyBox = document.getElementById("ready");
-const readySfx = document.getElementById("readySfx");
+/* 데이터 */
+let player = loadPlayerData();
+const boss = { maxHp: 180, hp: 180 };
 
-readySfx.play().catch(() => {});
+/* 데미지 공식 */
+function calcDamage(base, def) {
+  return Math.floor(base * (100 / (100 + def * 5)));
+}
+
+/* READY */
+const readyBox = document.getElementById("ready");
+document.getElementById("readySfx").play().catch(()=>{});
 
 setTimeout(() => {
   readyBox.style.display = "none";
-  teleportIn();
 }, 1500);
 
-/* ===== 데이터 로드 ===== */
-let player;
-try {
-  player = loadPlayerData();
-} catch (e) {
-  alert("세이브 데이터 로드 실패");
-  console.error(e);
+/* HP 업데이트 */
+function updateHP() {
+  document.getElementById("playerHPFill").style.height =
+    (player.stats.hp / player.baseStats.hp * 100) + "%";
+
+  document.getElementById("bossHPFill").style.height =
+    (boss.hp / boss.maxHp * 100) + "%";
 }
+updateHP();
 
-/* ===== 보스 ===== */
-const boss = {
-  name: "칠 펭귄",
-  maxHp: 180,
-  hp: 180,
-  attack: 20
-};
-
-/* ===== 계산 ===== */
-function calcDamage(base, defense) {
-  return Math.floor(base * (100 / (100 + defense * 5)));
-}
-
-function checkEvade(agi) {
-  return Math.random() * 100 < Math.min(30, agi * 2);
-}
-
-/* ===== 텔레포트 ===== */
-function teleportIn() {
-  document.getElementById("player").src =
-    "../images/sprites/X/Xteleport1.png";
-}
-
-/* ===== 행동 ===== */
+/* 행동 */
 function attack() {
   boss.hp -= calcDamage(player.stats.attack, 0);
+  if (boss.hp < 0) boss.hp = 0;
+  updateHP();
   enemyTurn();
 }
 
@@ -216,11 +210,9 @@ function guard() {
   enemyTurn();
 }
 
-/* ===== 적 턴 ===== */
+/* 적 턴 */
 function enemyTurn() {
   setTimeout(() => {
-    if (checkEvade(player.stats.agility)) return;
-
     let def = player.stats.defense;
     if (player.guard) {
       def += 20 + player.level * 5;
@@ -228,8 +220,20 @@ function enemyTurn() {
     }
 
     player.stats.hp -= calcDamage(18, def);
+    if (player.stats.hp < 0) player.stats.hp = 0;
+    updateHP();
+
     if (player.stats.hp <= 0) alert("패배...");
-  }, 600);
+  }, 500);
+}
+
+/* 임시 함수 (안 넣으면 게임 멈춤) */
+function openSkills() {
+  alert("스킬 시스템 구현 예정");
+}
+
+function openItems() {
+  alert("아이템 시스템 구현 예정");
 }
 </script>
 
