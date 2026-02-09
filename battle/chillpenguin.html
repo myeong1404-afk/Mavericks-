@@ -3,9 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Battle - Chill Penguin</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
 <style>
+/* ===== 공통 ===== */
 body {
   margin: 0;
   background: black;
@@ -13,11 +19,25 @@ body {
   font-family: "Malgun Gothic", sans-serif;
 }
 
+/* ===== 가로 화면 강제 안내 ===== */
+#rotateNotice {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 100;
+  font-size: 20px;
+}
+
 /* ===== 전투 화면 ===== */
 #battle {
   position: relative;
   width: 100vw;
-  height: 100dvh;
+  height: 100vh;
   background: url("../images/penguinstage.jpg") no-repeat center center;
   background-size: cover;
 }
@@ -27,14 +47,12 @@ body {
   position: absolute;
   bottom: 28%;
   width: 100%;
-  height: 2px;
 }
 
 #ceiling {
   position: absolute;
   bottom: calc(28% + 67%);
   width: 100%;
-  height: 2px;
 }
 
 /* 레버 */
@@ -46,7 +64,7 @@ body {
   width: 64px;
 }
 
-/* ===== 스프라이트 ===== */
+/* 스프라이트 */
 .sprite {
   position: absolute;
   bottom: 28%;
@@ -101,6 +119,11 @@ button {
 
 <body>
 
+<!-- 가로 화면 안내 -->
+<div id="rotateNotice">
+  📱 화면을 가로로 돌려주세요
+</div>
+
 <div id="battle">
 
   <div id="floor"></div>
@@ -110,8 +133,9 @@ button {
   <img id="player" class="sprite" src="../images/sprites/X/Xidle.png">
   <img id="boss" class="sprite" src="../images/sprites/Chillpenguin/penguindefault.png">
 
+  <!-- READY -->
   <div id="ready">
-    <img src="../images/ready.png">
+    <img src="../images/Ready.png">
   </div>
 
   <div id="ui">
@@ -123,12 +147,25 @@ button {
 </div>
 
 <audio id="readySfx" src="../audio/sfx/Ready.wav"></audio>
-<audio id="slideSfx" src="../audio/sfx/Slide.wav"></audio>
 
 <script src="../data.js"></script>
 <script src="../Savedata.js"></script>
 
 <script>
+/* ===== 가로화면 체크 ===== */
+function checkOrientation() {
+  const notice = document.getElementById("rotateNotice");
+  if (window.innerWidth < window.innerHeight) {
+    notice.style.display = "flex";
+  } else {
+    notice.style.display = "none";
+  }
+}
+
+window.addEventListener("resize", checkOrientation);
+window.addEventListener("orientationchange", checkOrientation);
+checkOrientation();
+
 /* ===== 데이터 로드 ===== */
 const player = loadPlayerData();
 
@@ -139,22 +176,21 @@ const boss = {
   attack: 20
 };
 
-/* ===== 공식 ===== */
+/* ===== 계산 ===== */
 function calcDamage(base, defense) {
   return Math.floor(base * (100 / (100 + defense * 5)));
 }
 
-/* 민첩성 회피 */
 function checkEvade(agi) {
-  const evadeRate = Math.min(30, agi * 2); // 최대 30%
-  return Math.random() * 100 < evadeRate;
+  return Math.random() * 100 < Math.min(30, agi * 2);
 }
 
 /* ===== READY 연출 ===== */
 const readyBox = document.getElementById("ready");
 const readySfx = document.getElementById("readySfx");
 
-readySfx.play();
+readySfx.play().catch(()=>{});
+
 setTimeout(() => {
   readyBox.style.display = "none";
   teleportIn();
@@ -162,74 +198,35 @@ setTimeout(() => {
 
 /* ===== 텔레포트 ===== */
 function teleportIn() {
-  const p = document.getElementById("player");
-  p.src = "../images/sprites/X/Xteleport1.png";
+  document.getElementById("player").src =
+    "../images/sprites/X/Xteleport1.png";
 }
 
 /* ===== 행동 ===== */
 function attack() {
-  const dmg = calcDamage(player.stats.attack, 0);
-  boss.hp -= dmg;
-  console.log("플레이어 공격:", dmg);
-
+  boss.hp -= calcDamage(player.stats.attack, 0);
   enemyTurn();
 }
 
 function guard() {
   player.guard = true;
-  console.log("가드!");
   enemyTurn();
 }
 
 /* ===== 적 턴 ===== */
 function enemyTurn() {
   setTimeout(() => {
-    let dmg = Math.floor(Math.random() * 5) + 18;
-
-    if (checkEvade(player.stats.agility)) {
-      console.log("회피!");
-      return;
-    }
+    if (checkEvade(player.stats.agility)) return;
 
     let def = player.stats.defense;
     if (player.guard) {
-      def += (20 + player.level * 5);
+      def += 20 + player.level * 5;
       player.guard = false;
     }
 
-    const final = calcDamage(dmg, def);
-    player.stats.hp -= final;
-
-    console.log("칠 펭귄 공격:", final);
-
-    if (player.stats.hp <= 0) {
-      alert("패배...");
-    }
+    player.stats.hp -= calcDamage(18, def);
+    if (player.stats.hp <= 0) alert("패배...");
   }, 600);
-}
-
-/* ===== 승리 처리 ===== */
-function winBattle() {
-  const state = loadGameState();
-  state.bosses.chill_penguin.defeated = true;
-  state.bosses.chill_penguin.skillObtained = true;
-  saveGameState(state);
-
-  player.level++;
-  player.baseStats.hp += 20;
-  player.baseStats.attack += 2;
-  player.baseStats.defense += 1;
-  player.baseStats.agility += 2;
-  player.baseStats.magic += 3;
-  player.baseStats.mp += 10;
-
-  player.skills.push("샷건 아이스");
-
-  recalcStats(player);
-  savePlayerData(player);
-
-  alert("승리!");
-  location.href = "../select.html";
 }
 </script>
 
