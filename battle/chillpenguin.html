@@ -47,27 +47,50 @@ body {
 #battle {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100%;
-  background: url("../images/sprites/Chillpenguin/Penguinstage.jpg") no-repeat center;
-  background-size: contain; /* 추천 */
-  background-color: black;
-  }
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-/* 바닥 */
+/* 논리 전투 필드 */
+#stage {
+  position: relative;
+  width: 320px;
+  height: 180px;
+  background: url("../images/sprites/Chillpenguin/Penguinstage.jpg") no-repeat center;
+  background-size: cover; /* ❗ contain 금지 */
+  image-rendering: pixelated;
+  transform-origin: center;
+}
+
+/* 공통 스프라이트 */
 .sprite {
   position: absolute;
-  bottom: 140px; /* UI 높이 고려 */
+  transform: translateX(-50%);
 }
 
+/* 플레이어 */
 #player {
-  left: 10%;
-  width: 96px;
+  left: 25%;
+  bottom: calc(180px * 0.28); /* 바닥 라인 */
+  width: 32px;
 }
 
+/* 보스 */
 #boss {
-  right: 10%;
-  width: 120px;
+  left: 75%;
+  bottom: calc(180px * 0.28);
+  width: 48px;
+}
+
+/* 레버 */
+#lever {
+  position: absolute;
+  left: 50%;
+  bottom: calc(180px * (0.28 + 0.67));
+  transform: translateX(-50%);
+  width: 24px;
 }
 
 /* ===== HP UI ===== */
@@ -138,6 +161,11 @@ button {
 <div id="rotateNotice">📱 가로 화면으로 돌려주세요</div>
 
 <div id="battle">
+  <div id="stage">
+    <img id="lever" src="../images/sprites/Chillpenguin/Lever.png">
+    <img id="player" class="sprite" src="../images/sprites/X/Xdefault.png">
+    <img id="boss" class="sprite" src="../images/sprites/Chillpenguin/penguindefault.png">
+  </div>
 
   <!-- HP UI -->
   <div id="playerHP" class="hpBar">
@@ -173,6 +201,19 @@ button {
 <script src="../Savedata.js"></script>
 
 <script>
+  function scaleStage() {
+  const scaleX = window.innerWidth / 320;
+  const scaleY = window.innerHeight / 180;
+  const scale = Math.min(scaleX, scaleY);
+
+  document.getElementById("stage").style.transform =
+    `scale(${scale})`;
+}
+
+window.addEventListener("resize", scaleStage);
+window.addEventListener("orientationchange", scaleStage);
+scaleStage();
+  
   function fixViewport() {
   const h = window.visualViewport
     ? window.visualViewport.height
