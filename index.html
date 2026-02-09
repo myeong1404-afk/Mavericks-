@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-<link rel="manifest" href="./manifest.json">
-<meta charset="UTF-8" />
-<title>Mavericks</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <title>Mavericks</title>
 
+  <link rel="manifest" href="./manifest.json">
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <meta name="theme-color" content="#000000">
+</head>
 <style>
 body {
   margin: 0;
@@ -215,6 +217,10 @@ document.getElementById("resetBtn").onclick = () => {
   }
 };
 </script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
+</script>
 </body>
 </html>
