@@ -36,7 +36,7 @@ body {
 #battle {
   position: relative;
   width: 100vw;
-  height: 100dvh; /* 🔥 중요 */
+  height: 100vh; /* 🔥 dvh 제거 */
   background: url("../images/sprites/Chillpenguin/Penguinstage.jpg") no-repeat center;
   background-size: cover;
 }
@@ -161,6 +161,14 @@ button {
 <script src="../Savedata.js"></script>
 
 <script>
+  function fixHeight() {
+  document.getElementById("battle").style.height =
+    window.innerHeight + "px";
+}
+
+window.addEventListener("resize", fixHeight);
+window.addEventListener("orientationchange", fixHeight);
+fixHeight();
 /* 가로 체크 */
 function checkOrientation() {
   document.getElementById("rotateNotice").style.display =
@@ -184,7 +192,10 @@ const readyBox = document.getElementById("ready");
 document.getElementById("readySfx").play().catch(()=>{});
 
 setTimeout(() => {
-  readyBox.style.display = "none";
+  readyBox.style.opacity = "0";
+  setTimeout(() => {
+    readyBox.style.display = "none";
+  }, 300);
 }, 1500);
 
 /* HP 업데이트 */
