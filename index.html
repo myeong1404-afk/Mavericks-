@@ -206,6 +206,7 @@ document.getElementById("skipBtn").onclick = () => location.href = "select.html"
 document.getElementById("resetBtn").onclick = () => {
   if (confirm("모든 진행 상황을 초기화할까요?")) {
     localStorage.removeItem("playerData");
+    localStorage.removeItem("gameState");
     location.reload();
   }
 };
