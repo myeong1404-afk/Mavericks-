@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
 <link rel="manifest" href="./manifest.json">
 <meta charset="UTF-8" />
 <title>Mavericks</title>
