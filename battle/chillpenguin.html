@@ -1,38 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link rel="manifest" href="./manifest.json">
-<meta charset="UTF-8">
-<title>Battle - Chill Penguin</title>
+  <meta charset="UTF-8">
+  <title>Battle - Chill Penguin</title>
 
-<!-- viewport -->
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- 🔥 PWA / 풀스크린 -->
-<meta name="theme-color" content="#000000">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  {
-  "name": "Mega Man Battle",
-  "short_name": "MM Battle",
-  "start_url": "./battle.html",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "orientation": "landscape",
-  "icons": [
-    {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "./icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   ]
 }
 <style>
@@ -73,9 +51,11 @@ body {
 
 /* 전투 화면 */
 #battle {
-  position: relative;
+  position: fixed;
+  inset: 0;
   width: 100vw;
-  height: 100vh; /* 🔥 dvh 제거 */
+  height: 100%;
+}
   background: url("../images/sprites/Chillpenguin/Penguinstage.jpg") no-repeat center;
   background-size: cover;
 }
@@ -141,13 +121,11 @@ body {
 
 /* UI 버튼 */
 #ui {
-  position: absolute;
-  bottom: env(safe-area-inset-bottom);
-  width: 100%;
-  background: rgba(0,0,0,0.8);
-  padding: 6px;
-  display: flex;
-  justify-content: space-around;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 button {
@@ -201,14 +179,20 @@ button {
 <script src="../Savedata.js"></script>
 
 <script>
-  function fixHeight() {
-  document.getElementById("battle").style.height =
-    window.innerHeight + "px";
+  function fixViewport() {
+  const h = window.visualViewport
+    ? window.visualViewport.height
+    : window.innerHeight;
+
+  document.getElementById("battle").style.height = h + "px";
 }
 
-window.addEventListener("resize", fixHeight);
-window.addEventListener("orientationchange", fixHeight);
-fixHeight();
+window.addEventListener("resize", fixViewport);
+window.addEventListener("orientationchange", fixViewport);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", fixViewport);
+}
+fixViewport();
 /* 가로 체크 */
 function checkOrientation() {
   document.getElementById("rotateNotice").style.display =
